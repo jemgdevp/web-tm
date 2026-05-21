@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**web-pf-ts** — "Proyecto Final Teoría de Sistemas" (UAM, Systems Theory final project). Vue 3 + TypeScript SPA scaffolded with Vite. Currently an early-stage scaffold: a single `/` route renders `HomeView.vue` (a placeholder using a shadcn-vue Button and Accordion). Pinia and Vue Router are wired up but no domain logic for the systems-theory project is implemented yet.
+**web-tm** — "TaskManager — Exposición" (UAM, Teoría de Sistemas final). Vue 3 + TypeScript SPA acting as a landing/aggregator for the real TaskManager project (Vue 3 SPA + Laravel 12 API + Sanctum auth + Reverb/Echo broadcasting + Scramble OpenAPI). The site presents the analysis as 7 sections — Portada, Problema, Requerimientos, Arquitectura, Casos de uso, Descripciones, Mockups — navigable from a sidebar with keyboard shortcuts (← →). Source content for the slides lives in `docs/moving/web/` (5 HTML files). No API calls happen from this SPA: references to `VITE_API_URL`/Sanctum/Reverb are descriptive only. Domain data lives in `src/data/*.ts`; route-level pages in `src/views/*.vue`; static mockups in `src/components/mockups/taskmanager/`.
 
 ## Commands
 

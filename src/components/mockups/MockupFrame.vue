@@ -11,7 +11,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  url: 'logistica.app',
+  url: 'task-manager.app',
   time: '09:41',
 })
 </script>

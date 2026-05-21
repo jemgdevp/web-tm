@@ -7,9 +7,9 @@ import {
   ListChecks,
   Workflow,
   NotebookText,
-  GitBranch,
+  Network,
   MonitorSmartphone,
-  Truck,
+  ListTodo,
   type LucideIcon,
 } from 'lucide-vue-next'
 import { sectionRoutes } from '@/router'
@@ -39,7 +39,7 @@ const iconMap: Record<string, LucideIcon> = {
   ListChecks,
   Workflow,
   NotebookText,
-  GitBranch,
+  Network,
   MonitorSmartphone,
 }
 
@@ -70,7 +70,7 @@ const activeName = computed(() => route.name)
       <span
         class="flex size-9 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground"
       >
-        <Truck class="size-5" />
+        <ListTodo class="size-5" />
       </span>
       <div v-if="!props.collapsed" class="flex min-w-0 flex-1 flex-col">
         <span class="truncate font-heading text-sm font-bold leading-tight">

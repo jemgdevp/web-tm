@@ -15,7 +15,7 @@ useSectionAnimation()
     <PageHeader
       :numero="2"
       titulo="Planteamiento del problema"
-      subtitulo="Contexto operativo de una empresa de mensajería que afronta retrasos, pérdida de paquetes y falta de trazabilidad en su operación diaria."
+      subtitulo="En entornos académicos y profesionales se pierde visibilidad sobre tareas, vencimientos y cambios entre miembros del equipo. TaskManager separa presentación, lógica y datos con un contrato API-first."
     />
 
     <!-- Resumen narrativo -->
@@ -30,7 +30,7 @@ useSectionAnimation()
         Actores del sistema
       </h2>
       <p data-anim class="mt-2 max-w-2xl text-sm text-muted-foreground">
-        El sistema involucra cuatro roles bien diferenciados, cada uno con responsabilidades específicas en el flujo logístico.
+        El sistema reconoce dos roles humanos (invitado y usuario autenticado) más un actor secundario tipo «sistema» para el broadcasting realtime.
       </p>
 
       <div class="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">

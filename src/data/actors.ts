@@ -2,55 +2,41 @@ import type { Actor } from '@/types/domain'
 
 export const actors: Actor[] = [
   {
-    id: 'cliente',
-    nombre: 'Cliente',
+    id: 'invitado',
+    nombre: 'Invitado',
     descripcion:
-      'Persona o empresa que contrata el servicio de mensajería para enviar paquetes. Interactúa con el sistema desde una interfaz pública para registrar pedidos y consultar el estado de sus envíos.',
+      'Usuario sin sesión activa que entra a la SPA por la ruta pública guest.home. Puede consultar la documentación OpenAPI, registrarse o iniciar sesión para obtener un token Sanctum.',
     responsabilidades: [
-      'Registrar pedidos de envío.',
-      'Consultar el estado de sus paquetes en tiempo real.',
-      'Confirmar la recepción cuando aplique.',
+      'Acceder al landing público en /.',
+      'Registrarse o iniciar sesión vía POST /api/register o POST /api/login.',
+      'Consultar la documentación de la API en VITE_API_URL/docs (Scramble).',
     ],
-    icon: 'User',
+    icon: 'UserPlus',
   },
   {
-    id: 'repartidor',
-    nombre: 'Repartidor',
+    id: 'usuario',
+    nombre: 'Usuario autenticado',
     descripcion:
-      'Empleado encargado de transportar y entregar los paquetes en la ruta asignada por el supervisor. Usa la aplicación móvil para consultar su ruta del día y registrar las entregas.',
+      'Usuario con token Sanctum válido. Opera las rutas protegidas (meta.requiresAuth) gestionando sus propias tareas y suscribiéndose a canales realtime para ver los cambios en vivo.',
     responsabilidades: [
-      'Consultar la ruta del día.',
-      'Marcar paquetes como entregados.',
-      'Registrar evidencia (foto, firma, observación).',
-      'Reportar incidencias.',
+      'Gestionar sus tareas (listar paginado, crear, editar y eliminar).',
+      'Verificar su correo electrónico cuando el sistema lo solicite.',
+      'Suscribirse a canales Echo (tasks y user.{id}.tasks) para recibir eventos.',
+      'Cerrar sesión limpiando el token local y desconectando Echo.',
     ],
-    icon: 'Truck',
+    icon: 'UserCheck',
   },
   {
-    id: 'supervisor',
-    nombre: 'Supervisor logístico',
+    id: 'broadcasting',
+    nombre: 'Sistema de broadcasting',
     descripcion:
-      'Responsable de coordinar la operación diaria. Asigna rutas, monitorea el avance de las entregas en tiempo real y gestiona incidencias.',
+      'Actor secundario tipo «sistema»: Reverb (servidor WebSocket) más Laravel Echo en el cliente. Emite y propaga los eventos TaskCreated, TaskUpdated y TaskDeleted hacia los clientes suscritos.',
     responsabilidades: [
-      'Asignar rutas a los repartidores.',
-      'Monitorear el avance en tiempo real.',
-      'Reasignar entregas ante incidencias.',
-      'Validar la finalización de la jornada.',
+      'Autorizar canales privados vía POST /api/broadcasting/auth.',
+      'Publicar eventos del dominio al canal tasks y a canales privados user.{id}.tasks.',
+      'Mantener la coherencia entre la respuesta REST y el payload del evento.',
     ],
-    icon: 'Map',
-  },
-  {
-    id: 'administrador',
-    nombre: 'Administrador',
-    descripcion:
-      'Usuario con privilegios elevados sobre el sistema. Gestiona usuarios, parámetros operativos y obtiene reportes ejecutivos para la toma de decisiones.',
-    responsabilidades: [
-      'Gestionar cuentas de usuario y roles.',
-      'Generar y consultar reportes operativos y financieros.',
-      'Configurar parámetros del sistema.',
-      'Aprobar facturación.',
-    ],
-    icon: 'ShieldCheck',
+    icon: 'Radio',
   },
 ]
 

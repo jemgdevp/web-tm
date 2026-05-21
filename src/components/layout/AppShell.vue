@@ -54,7 +54,7 @@ const totalSections = sectionRoutes.length
           >
             <Menu class="size-5" />
           </button>
-          <span class="font-heading text-sm font-bold">Logística — Análisis</span>
+          <span class="font-heading text-sm font-bold">TaskManager — Exposición</span>
           <ThemeToggle />
         </div>
 

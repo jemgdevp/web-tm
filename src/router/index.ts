@@ -54,12 +54,25 @@ export const sectionRoutes: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/arquitectura',
+    name: 'arquitectura',
+    component: () => import('@/views/ArquitecturaView.vue'),
+    meta: {
+      seccion: {
+        numero: 4,
+        titulo: 'Arquitectura del sistema',
+        subtitulo: 'Cliente-servidor, Sanctum, broadcasting y Scramble',
+        icon: 'Network',
+      },
+    },
+  },
+  {
     path: '/casos-de-uso',
     name: 'casos-de-uso',
     component: () => import('@/views/CasosUsoView.vue'),
     meta: {
       seccion: {
-        numero: 4,
+        numero: 5,
         titulo: 'Diagrama de casos de uso',
         subtitulo: 'Actores, casos y relaciones UML',
         icon: 'Workflow',
@@ -72,23 +85,10 @@ export const sectionRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/DescripcionesView.vue'),
     meta: {
       seccion: {
-        numero: 5,
-        titulo: 'Descripciones de casos de uso',
-        subtitulo: '2 principales y 2 secundarios',
-        icon: 'NotebookText',
-      },
-    },
-  },
-  {
-    path: '/actividad',
-    name: 'actividad',
-    component: () => import('@/views/ActividadView.vue'),
-    meta: {
-      seccion: {
         numero: 6,
-        titulo: 'Diagramas de actividad',
-        subtitulo: 'Flujo de los casos de uso principales',
-        icon: 'GitBranch',
+        titulo: 'Descripciones de casos de uso',
+        subtitulo: '8 fichas formales (4 primarios + 4 secundarios)',
+        icon: 'NotebookText',
       },
     },
   },

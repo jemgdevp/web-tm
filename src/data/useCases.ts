@@ -2,232 +2,329 @@ import type { UseCase } from '@/types/domain'
 
 export const useCases: UseCase[] = [
   {
-    codigo: 'CU-01',
-    nombre: 'Registrar pedido',
-    actores: ['cliente'],
-    tipo: 'principal',
-    precondiciones: [
-      'El cliente está autenticado en el sistema.',
-      'El servicio de cálculo de tarifas se encuentra disponible.',
-      'Existe al menos una zona de cobertura habilitada.',
-    ],
-    descripcion:
-      'Permite al cliente registrar un nuevo pedido de envío indicando el origen, destino y características del paquete. El sistema calcula la tarifa, genera un número de seguimiento y notifica al supervisor logístico para su asignación.',
-    flujoNormal: [
-      'El cliente selecciona la opción "Nuevo pedido" en el menú principal.',
-      'El sistema muestra el formulario de registro de pedido.',
-      'El cliente ingresa los datos de origen, destino, peso, dimensiones y descripción del paquete.',
-      'El sistema valida los datos ingresados.',
-      'El sistema calcula automáticamente la tarifa (CU-Calcular tarifa).',
-      'El sistema muestra el resumen del pedido con la tarifa calculada.',
-      'El cliente confirma el pedido.',
-      'El sistema genera un número de seguimiento único.',
-      'El sistema notifica al supervisor logístico para asignación de ruta.',
-      'El sistema muestra al cliente la confirmación con el número de seguimiento.',
-    ],
-    flujosAlternos: [
-      {
-        titulo: 'A1. Cotización previa sin registrar',
-        pasos: [
-          'En el paso 6, el cliente selecciona "Solo cotizar" en lugar de confirmar.',
-          'El sistema guarda la cotización por 24 horas con un identificador temporal.',
-          'El sistema muestra al cliente el detalle de la cotización y vuelve al menú principal.',
-        ],
-      },
-      {
-        titulo: 'A2. Cliente registrado por primera vez',
-        pasos: [
-          'En el paso 3, si el cliente no tiene dirección frecuente registrada, el sistema le ofrece guardarla.',
-          'El cliente acepta o rechaza guardar la dirección.',
-          'El flujo continúa en el paso 4.',
-        ],
-      },
-    ],
-    excepciones: [
-      {
-        titulo: 'E1. Dirección fuera de cobertura',
-        descripcion:
-          'Si el origen o destino no está dentro de las zonas de cobertura, el sistema informa al cliente y le sugiere las zonas disponibles. El pedido no se registra.',
-      },
-      {
-        titulo: 'E2. Servicio de tarifas no disponible',
-        descripcion:
-          'Si el servicio de cálculo de tarifas no responde, el sistema muestra un mensaje de error y permite reintentar. El pedido no se registra.',
-      },
-      {
-        titulo: 'E3. Datos inválidos',
-        descripcion:
-          'Si alguno de los campos obligatorios no cumple con el formato esperado, el sistema marca el error y solicita corrección.',
-      },
-    ],
-    postcondiciones: [
-      'El pedido queda registrado en el sistema con estado "Pendiente de asignación".',
-      'El cliente recibe un número de seguimiento por correo electrónico.',
-      'El supervisor logístico recibe una notificación.',
-    ],
-  },
-  {
-    codigo: 'CU-02',
-    nombre: 'Realizar entrega',
-    actores: ['repartidor'],
-    tipo: 'principal',
-    precondiciones: [
-      'El repartidor está autenticado en su aplicación móvil.',
-      'El repartidor tiene al menos un paquete asignado en su ruta del día.',
-      'El paquete a entregar está en estado "En ruta".',
-    ],
-    descripcion:
-      'Permite al repartidor registrar la entrega de un paquete en el destino acordado. Incluye la captura de evidencia (firma y/o foto), la confirmación de la recepción y la actualización inmediata del estado del paquete en el sistema.',
-    flujoNormal: [
-      'El repartidor abre su ruta del día en la aplicación móvil.',
-      'El sistema muestra la lista de paquetes asignados ordenada por proximidad.',
-      'El repartidor selecciona el paquete que va a entregar.',
-      'El sistema muestra los detalles del paquete y los datos del destinatario.',
-      'El repartidor confirma la llegada al destino.',
-      'El repartidor captura la evidencia de entrega: foto del paquete y firma del receptor (CU-Registrar evidencia).',
-      'El repartidor ingresa observaciones (opcional).',
-      'El repartidor marca el paquete como entregado.',
-      'El sistema actualiza el estado del paquete a "Entregado".',
-      'El sistema notifica al cliente sobre la entrega.',
-      'El sistema actualiza el avance de la ruta del día.',
-    ],
-    flujosAlternos: [
-      {
-        titulo: 'A1. Receptor distinto al destinatario',
-        pasos: [
-          'En el paso 6, si quien recibe no es el destinatario, el repartidor selecciona "Otro receptor".',
-          'El sistema solicita nombre y documento del receptor.',
-          'El repartidor ingresa los datos y continúa en el paso 7.',
-        ],
-      },
-      {
-        titulo: 'A2. Entrega sin firma',
-        pasos: [
-          'En el paso 6, si el cliente eligió la modalidad "Contactless", el repartidor solo captura foto del paquete en el lugar de entrega.',
-          'El flujo continúa en el paso 7.',
-        ],
-      },
-    ],
-    excepciones: [
-      {
-        titulo: 'E1. Receptor ausente',
-        descripcion:
-          'Si no hay nadie en el destino, el repartidor selecciona "Entrega fallida — ausente", indica la causa y el sistema reprograma el paquete para el siguiente turno.',
-      },
-      {
-        titulo: 'E2. Sin conexión a Internet',
-        descripcion:
-          'Si el dispositivo está sin conexión, la entrega queda registrada localmente y se sincroniza automáticamente al recuperar la conexión.',
-      },
-      {
-        titulo: 'E3. Dirección incorrecta',
-        descripcion:
-          'Si la dirección no existe o es errónea, el repartidor reporta la incidencia y el supervisor procede a contactar al cliente.',
-      },
-    ],
-    postcondiciones: [
-      'El paquete queda en estado "Entregado" con su evidencia almacenada.',
-      'El cliente recibe una notificación con la confirmación de entrega.',
-      'La ruta del día del repartidor refleja el avance actualizado.',
-    ],
-  },
-  {
-    codigo: 'CU-03',
-    nombre: 'Asignar ruta automáticamente',
-    actores: ['supervisor'],
+    codigo: 'CU-DOC-00',
+    nombre: 'Consultar documentación de la API (Scramble)',
+    actores: ['invitado'],
     tipo: 'secundario',
     precondiciones: [
-      'El supervisor está autenticado.',
-      'Existen pedidos en estado "Pendiente de asignación".',
-      'Existen repartidores disponibles para la jornada.',
+      'Se conoce la URL base de la API (APP_URL o VITE_API_URL).',
+      'Acceso a Scramble sujeto a SCRAMBLE_PUBLIC_DOCS / SCRAMBLE_ALLOWED_EMAILS según config/scramble.php.',
     ],
     descripcion:
-      'Permite al supervisor logístico generar y validar la asignación automática de rutas, distribuyendo los pedidos pendientes entre los repartidores disponibles según ubicación, carga actual y zona de cobertura.',
+      'El desarrollador o usuario técnico abre la documentación OpenAPI generada por Scramble desde la SPA. Permite explorar endpoints, esquemas y descargar el contrato JSON para integraciones.',
     flujoNormal: [
-      'El supervisor accede al módulo "Asignación de rutas".',
-      'El sistema muestra los pedidos pendientes y los repartidores disponibles.',
-      'El supervisor selecciona la opción "Generar asignación automática".',
-      'El sistema ejecuta el algoritmo de optimización de rutas (CU-Optimizar ruta).',
-      'El sistema muestra la propuesta de asignación: pedidos por repartidor con la ruta sugerida.',
-      'El supervisor revisa la propuesta.',
-      'El supervisor confirma la asignación.',
-      'El sistema actualiza el estado de los pedidos a "En ruta".',
-      'El sistema notifica a cada repartidor de su ruta del día.',
+      'En guest.home, el actor pulsa “See API documentation”.',
+      'El navegador abre VITE_API_URL/docs.',
+      'Laravel redirige /docs → /docs/api (Scramble UI).',
+      'Opcional: descargar el contrato OpenAPI desde /docs/api.json.',
     ],
     flujosAlternos: [
       {
-        titulo: 'A1. Ajuste manual antes de confirmar',
+        titulo: 'FA-1. Docs privadas',
         pasos: [
-          'En el paso 6, el supervisor reasigna manualmente uno o varios pedidos a otros repartidores.',
-          'El sistema valida que la nueva asignación sea factible (capacidad, zona).',
-          'El flujo continúa en el paso 7.',
+          'Si SCRAMBLE_PUBLIC_DOCS=false, Scramble exige autenticación.',
+          'El usuario se autentica en la UI de Scramble según política del servidor.',
+          'Tras autenticarse, se le muestran los endpoints permitidos.',
         ],
       },
     ],
     excepciones: [
       {
-        titulo: 'E1. Sin repartidores disponibles',
+        titulo: 'EX-01. Dominio API mal configurado',
         descripcion:
-          'Si no hay repartidores disponibles, el sistema informa al supervisor y permite priorizar pedidos para la próxima jornada.',
-      },
-      {
-        titulo: 'E2. Pedidos sin cobertura',
-        descripcion:
-          'Si existen pedidos cuya zona no está cubierta por ningún repartidor, el sistema los marca y los excluye de la asignación.',
+          'Si VITE_API_URL apunta a un dominio incorrecto, la página queda en blanco o se bloquea por CORS; corregir la variable en el .env del front.',
       },
     ],
     postcondiciones: [
-      'Los pedidos quedan asignados a un repartidor con una ruta optimizada.',
-      'Cada repartidor recibe su ruta del día en su aplicación.',
-      'Queda un registro de la asignación con timestamp y supervisor responsable.',
+      'El contrato OpenAPI 3 queda visible en la UI Scramble o disponible como JSON para integración.',
     ],
   },
   {
-    codigo: 'CU-04',
-    nombre: 'Generar reporte de desempeño',
-    actores: ['administrador'],
-    tipo: 'secundario',
+    codigo: 'CU-REG-01',
+    nombre: 'Registrarse',
+    actores: ['invitado'],
+    tipo: 'principal',
     precondiciones: [
-      'El administrador está autenticado.',
-      'Existen datos operativos registrados en el período consultado.',
+      'El actor no posee sesión válida.',
+      'El correo no está registrado (o el backend devuelve error de validación).',
     ],
     descripcion:
-      'Permite al administrador generar reportes consolidados de desempeño operativo: entregas realizadas, retrasos, paquetes por repartidor, facturación y otros indicadores clave para la toma de decisiones.',
+      'El invitado crea una cuenta nueva enviando email, contraseña y confirmación. Si el backend emite token, el store Pinia lo persiste en localStorage y el router decide entre verify-email o tasks.index según email_verified.',
     flujoNormal: [
-      'El administrador accede al módulo "Reportes".',
-      'El sistema muestra el catálogo de reportes disponibles.',
-      'El administrador selecciona el tipo de reporte deseado.',
-      'El sistema solicita los filtros (rango de fechas, zona, repartidor).',
-      'El administrador define los filtros.',
-      'El sistema procesa la consulta y muestra el reporte en pantalla.',
-      'El administrador puede exportar el reporte a PDF o Excel.',
+      'El actor solicita el registro desde guest.home.',
+      'El cliente envía POST /api/register con los datos del formulario.',
+      'El servidor responde con token y datos del usuario (Sanctum).',
+      'El store de auth guarda token y usuario en localStorage.',
+      'Vue Router navega a auth.verify-email o tasks.index según email_verified.',
     ],
     flujosAlternos: [
       {
-        titulo: 'A1. Reporte programado',
+        titulo: 'FA-1. Usuario creado sin token',
         pasos: [
-          'En el paso 6, el administrador elige programar el reporte para envío periódico por correo.',
-          'El sistema solicita la periodicidad y los destinatarios.',
-          'El sistema guarda la programación y la confirma.',
+          'El servidor crea la cuenta pero no emite token.',
+          'El cliente conserva los datos del formulario y ofrece reintentar login.',
+        ],
+      },
+      {
+        titulo: 'FA-2. Validación 422',
+        pasos: [
+          'El servidor responde HTTP 422 con detalle de errores.',
+          'La SPA renderiza los mensajes de validación en el formulario.',
+          'El actor corrige los campos y reintenta.',
         ],
       },
     ],
     excepciones: [
       {
-        titulo: 'E1. Sin datos en el período',
+        titulo: 'EX-01. Error de red',
         descripcion:
-          'Si los filtros no producen resultados, el sistema lo informa y sugiere ampliar el rango.',
-      },
-      {
-        titulo: 'E2. Reporte demasiado extenso',
-        descripcion:
-          'Si el reporte excede los límites de procesamiento, el sistema lo encola y notifica al administrador cuando esté listo.',
+          'Si Axios no logra contactar la API, se muestra un mensaje genérico y no se guarda token; la sesión queda vacía.',
       },
     ],
     postcondiciones: [
-      'El administrador obtiene un reporte consolidado consultable en pantalla.',
-      'Si lo solicita, el reporte queda disponible en formato PDF o Excel para descarga.',
-      'Si programó envío periódico, queda registrado en el sistema.',
+      'La cuenta queda creada en el backend.',
+      'Si se emitió token, el usuario queda autenticado en el cliente.',
+      'El estado Pinia y localStorage reflejan al usuario actual.',
+    ],
+  },
+  {
+    codigo: 'CU-AUTH-02',
+    nombre: 'Iniciar sesión',
+    actores: ['invitado'],
+    tipo: 'principal',
+    precondiciones: [
+      'Existe una cuenta registrada con las credenciales suministradas.',
+      'La SPA está cargada y el actor accede al modal de login (AuthModal.vue).',
+    ],
+    descripcion:
+      'El invitado se autentica contra la API y obtiene un token Sanctum para activar los casos de uso que incluyen validación de sesión (gestión de tareas).',
+    flujoNormal: [
+      'Paso 1 — Actor: en guest.home, abre el modal de login y envía email y contraseña. Sistema: muestra el formulario y ejecuta POST /api/login con Axios.',
+      'Paso 2 — Sistema: Laravel valida las credenciales y responde con token y usuario (Sanctum).',
+      'Paso 3 — Sistema: el store Pinia guarda token y usuario, persistiéndolos en localStorage.',
+      'Paso 4 — Sistema: Vue Router navega a tasks.index si el correo está verificado; si no, a auth.verify-email.',
+    ],
+    flujosAlternos: [
+      {
+        titulo: 'FA-1. Credenciales incorrectas',
+        pasos: [
+          'En el paso 2 la API responde con error de autenticación.',
+          'La UI muestra el mensaje y no guarda token.',
+          'El actor permanece en el flujo de login.',
+        ],
+      },
+    ],
+    excepciones: [
+      {
+        titulo: 'EX-01. Respuesta sin token',
+        descripcion:
+          'Si el paso 2 devuelve OK pero sin token, el store lanza un error controlado “Authentication token missing” y no asume sesión válida.',
+      },
+      {
+        titulo: 'EX-02. Error de red',
+        descripcion:
+          'Si Axios falla en transporte, la UI muestra un mensaje y la sesión no se inicia.',
+      },
+    ],
+    postcondiciones: [
+      'Token Sanctum enviado en Authorization: Bearer en llamadas posteriores.',
+      'Rutas con requiresAuth accesibles para el actor.',
+    ],
+  },
+  {
+    codigo: 'CU-VER-03',
+    nombre: 'Verificar correo electrónico',
+    actores: ['usuario'],
+    tipo: 'secundario',
+    precondiciones: [
+      'El actor tiene sesión activa.',
+      'El campo email_verified en el modelo de usuario es false.',
+    ],
+    descripcion:
+      'El usuario completa el flujo de verificación de correo siguiendo el enlace firmado emitido por el backend. Tras éxito, el frontend refresca el usuario y desbloquea las rutas que requieren verificación.',
+    flujoNormal: [
+      'El usuario entra a la vista auth.verify-email en /verify-email.',
+      'La SPA solicita POST /api/email/verification-notification para reenviar el correo.',
+      'El usuario abre el enlace firmado GET /api/email/verify/{id}/{hash}.',
+      'El store auth ejecuta refreshCurrentUser y actualiza email_verified.',
+    ],
+    flujosAlternos: [
+      {
+        titulo: 'FA-1. Enlace expirado o inválido',
+        pasos: [
+          'El servidor rechaza el enlace por firma o expiración.',
+          'La SPA muestra un mensaje de error y ofrece reenviar el correo.',
+        ],
+      },
+    ],
+    excepciones: [
+      {
+        titulo: 'EX-01. Throttle de envíos',
+        descripcion:
+          'El endpoint de notificación aplica rate-limit; si se excede, la SPA muestra el tiempo restante antes de un nuevo intento.',
+      },
+    ],
+    postcondiciones: [
+      'El campo email_verified queda coherente entre cliente y servidor.',
+      'Las rutas que exigen verificación quedan accesibles.',
+    ],
+  },
+  {
+    codigo: 'CU-TASK-04',
+    nombre: 'Listar tareas (paginado)',
+    actores: ['usuario'],
+    tipo: 'principal',
+    precondiciones: [
+      'Token Sanctum válido en localStorage.',
+      'El backend autoriza al usuario sobre su colección de tareas.',
+    ],
+    descripcion:
+      'El usuario consulta sus tareas paginadas para revisar estado, vencimientos y prioridades. Este caso incluye «include» a la validación de token vía guardas del router.',
+    flujoNormal: [
+      'El usuario navega a tasks.index en /tasks.',
+      'La SPA ejecuta GET /api/tasks?page=n con Bearer.',
+      'Laravel responde con una colección paginada.',
+      'El store Pinia actualiza tareas y página actual; la vista renderiza la lista.',
+    ],
+    flujosAlternos: [
+      {
+        titulo: 'FA-1. Página vacía',
+        pasos: [
+          'La colección llega sin ítems.',
+          'La UI muestra el estado “Sin tareas” sin tratarlo como error.',
+        ],
+      },
+    ],
+    excepciones: [
+      {
+        titulo: 'EX-01. HTTP 401',
+        descripcion:
+          'Sesión inválida: se limpia el token local y se redirige a guest.home.',
+      },
+      {
+        titulo: 'EX-02. HTTP 5xx o red caída',
+        descripcion:
+          'Error transitorio del servidor o pérdida de conectividad: la lista puede quedar desactualizada hasta un nuevo intento.',
+      },
+    ],
+    postcondiciones: [
+      'El estado Pinia de tareas y página actual queda actualizado.',
+      'La vista lista las tareas autorizadas por las políticas del backend.',
+    ],
+  },
+  {
+    codigo: 'CU-TASK-05',
+    nombre: 'Crear / editar / eliminar tarea',
+    actores: ['usuario'],
+    tipo: 'principal',
+    precondiciones: [
+      'Sesión válida (token Sanctum vigente).',
+      'El formulario satisface las reglas de validación (título, estado, fecha, etc.).',
+    ],
+    descripcion:
+      'El usuario opera el CRUD de tareas desde la vista tasks.index. Cada operación HTTP confirma la mutación; los eventos broadcast (CU-RT-06) complementan la sincronización entre clientes.',
+    flujoNormal: [
+      'Crear: POST /api/tasks con el payload del formulario.',
+      'Editar: PUT/PATCH /api/tasks/{id}.',
+      'Eliminar: DELETE /api/tasks/{id}.',
+      'Tras respuesta OK, la SPA actualiza la lista local y queda a la escucha de los eventos realtime.',
+    ],
+    flujosAlternos: [
+      {
+        titulo: 'FA-1. Validación fallida',
+        pasos: [
+          'El servidor responde HTTP 422 con errores por campo.',
+          'La UI marca los errores sin corromper la lista de tareas.',
+        ],
+      },
+      {
+        titulo: 'FA-2. Recurso inexistente',
+        pasos: [
+          'Editar o eliminar devuelve HTTP 404.',
+          'La SPA muestra un aviso y refresca la lista desde el servidor.',
+        ],
+      },
+    ],
+    excepciones: [
+      {
+        titulo: 'EX-01. Sesión expirada',
+        descripcion:
+          'Si la API devuelve 401, se limpia el token y se obliga a un nuevo login.',
+      },
+    ],
+    postcondiciones: [
+      'El recurso queda persistido o eliminado en el backend.',
+      'La vista refleja un estado coherente con el servidor.',
+    ],
+  },
+  {
+    codigo: 'CU-RT-06',
+    nombre: 'Sincronizar en tiempo real',
+    actores: ['usuario', 'broadcasting'],
+    tipo: 'secundario',
+    precondiciones: [
+      'Echo inicializado en el cliente.',
+      'Para canales privados, POST /api/broadcasting/auth queda autorizado con Sanctum.',
+    ],
+    descripcion:
+      'El usuario recibe eventos de TaskCreated, TaskUpdated y TaskDeleted vía Echo+Reverb, manteniendo la lista coherente sin recargar. Complementa el CRUD pero no lo sustituye.',
+    flujoNormal: [
+      'El cliente se suscribe al canal público tasks y al privado user.{id}.tasks.',
+      'Laravel emite eventos de dominio tras cada mutación HTTP.',
+      'Reverb propaga el evento; Echo lo recibe en la SPA.',
+      'El store actualiza optimistamente la lista de tareas.',
+    ],
+    flujosAlternos: [
+      {
+        titulo: 'FA-1. Reverb no disponible',
+        pasos: [
+          'El handshake de Echo falla por timeout o servicio caído.',
+          'El CRUD sigue funcionando por HTTP.',
+          'La UI muestra un estado “realtime degradado”.',
+        ],
+      },
+    ],
+    excepciones: [
+      {
+        titulo: 'EX-01. Autorización rechazada',
+        descripcion:
+          'Si /api/broadcasting/auth devuelve 403 para un canal privado, el cliente no se suscribe a ese canal pero conserva el público.',
+      },
+    ],
+    postcondiciones: [
+      'La lista refleja los cambios externos sin recarga manual.',
+      'Los IDs del payload broadcast coinciden con los recursos REST.',
+    ],
+  },
+  {
+    codigo: 'CU-AUTH-07',
+    nombre: 'Cerrar sesión',
+    actores: ['usuario'],
+    tipo: 'secundario',
+    precondiciones: [
+      'Token Sanctum almacenado en localStorage.',
+    ],
+    descripcion:
+      'El usuario cierra sesión limpiando el token local y notificando al backend cuando sea posible. La desconexión de Echo es parte del flujo para evitar estados inconsistentes.',
+    flujoNormal: [
+      'El usuario solicita logout desde la UI.',
+      'La SPA ejecuta POST /api/logout (best-effort) con Bearer.',
+      'El store limpia token y usuario en cliente.',
+      'Echo se desconecta de los canales privados.',
+    ],
+    flujosAlternos: [
+      {
+        titulo: 'FA-1. Error de red',
+        pasos: [
+          'Si POST /api/logout falla en transporte, igualmente se limpia la sesión local.',
+          'Esto evita un estado autenticado en cliente sin respaldo en servidor.',
+        ],
+      },
+    ],
+    excepciones: [],
+    postcondiciones: [
+      'No se envían peticiones autenticadas hasta un nuevo login.',
+      'Las suscripciones Echo a canales privados quedan cerradas.',
     ],
   },
 ]

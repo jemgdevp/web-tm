@@ -22,9 +22,9 @@ useSectionAnimation()
 <template>
   <section>
     <PageHeader
-      :numero="4"
+      :numero="5"
       titulo="Diagrama de casos de uso"
-      subtitulo="Modelado UML de la interacción entre los cuatro actores y el sistema de gestión logística, incluyendo las relaciones «include» y «extend» entre casos de uso."
+      subtitulo="Modelado UML de TaskManager: Invitado y Usuario autenticado frente al sistema, con relaciones «include» hacia Validar token y mensajes en tiempo real."
     />
 
     <!-- Diagrama -->
@@ -46,7 +46,7 @@ useSectionAnimation()
         <MermaidDiagram
           :source="useCaseDiagramMermaid"
           id="cu-diagram"
-          aria-label="Diagrama de casos de uso del sistema de gestión logística"
+          aria-label="Diagrama de casos de uso del sistema TaskManager"
         />
       </div>
     </div>
@@ -57,7 +57,7 @@ useSectionAnimation()
         Actores y sus casos de uso
       </h2>
       <p class="mt-1 text-sm text-muted-foreground">
-        Cada actor del sistema tiene asignados los siguientes casos de uso.
+        Distribución de los ocho casos de uso entre los actores del sistema.
       </p>
 
       <div class="-mx-4 mt-4 overflow-x-auto sm:mx-0">
@@ -95,7 +95,7 @@ useSectionAnimation()
     <div data-anim class="mb-10">
       <h2 class="font-heading text-xl font-bold tracking-tight">Casos de uso identificados</h2>
       <p class="mt-1 text-sm text-muted-foreground">
-        Dos casos de uso principales y dos secundarios, distribuidos entre los cuatro actores.
+        Cuatro casos de uso principales (CRUD y autenticación) y cuatro secundarios (docs, verificación, realtime y logout).
       </p>
 
       <div class="mt-4 grid gap-4 md:grid-cols-2">
@@ -137,11 +137,11 @@ useSectionAnimation()
       </div>
     </div>
 
-    <!-- Relaciones include / extend -->
+    <!-- Relaciones include / eventos -->
     <div data-anim>
       <h2 class="font-heading text-xl font-bold tracking-tight">Relaciones del diagrama</h2>
       <p class="mt-1 text-sm text-muted-foreground">
-        Relaciones de dependencia tipo «include» (siempre se ejecuta) y «extend» (puede ejecutarse).
+        Relaciones «include» (siempre se ejecuta el caso reutilizado) y mensajes «eventos» (broadcast realtime que refresca la vista).
       </p>
 
       <div class="-mx-4 mt-4 overflow-x-auto sm:mx-0">

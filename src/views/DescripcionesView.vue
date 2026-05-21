@@ -16,16 +16,16 @@ const secundarios = computed(() => useCases.filter((uc) => uc.tipo === 'secundar
 <template>
   <section>
     <PageHeader
-      :numero="5"
+      :numero="6"
       titulo="Descripciones de casos de uso"
-      subtitulo="Cuatro casos de uso especificados con plantilla UML completa."
+      subtitulo="Ocho fichas formales (cuatro primarias y cuatro secundarias) ancladas al código real de Laravel y Vue."
     />
 
     <p data-anim class="mb-10 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-      Especificación detallada de los dos casos de uso principales y los dos secundarios siguiendo
-      la plantilla estándar: nombre, actores, tipo, precondiciones, descripción, flujo normal,
-      flujos alternos, excepciones y postcondiciones. Las secciones más usadas se muestran
-      expandidas; el resto se abre bajo demanda.
+      Especificación detallada siguiendo la plantilla del curso: nombre, actores, tipo,
+      precondiciones, descripción, flujo normal, flujos alternos, excepciones (etiquetadas EX-NN)
+      y postcondiciones. Las secciones más usadas se muestran expandidas; el resto se abre bajo
+      demanda.
     </p>
 
     <!-- Principales -->

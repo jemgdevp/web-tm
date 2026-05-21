@@ -1,8 +1,9 @@
 import type { ProjectInfo } from '@/types/domain'
 
 export const projectInfo: ProjectInfo = {
-  titulo: 'Sistema de Gestión Logística',
-  subtitulo: 'Análisis y diseño de un sistema de información para empresa de mensajería',
+  titulo: 'TaskManager',
+  subtitulo:
+    'Sistema API-first de gestión de tareas con sincronización en tiempo real (Vue 3 + Laravel 12 + Sanctum + Reverb).',
   asignatura: 'Teoría de Sistemas',
   carrera: 'Ingeniería de Sistemas',
   universidad: 'Universidad Autónoma de Manizales',
@@ -17,25 +18,25 @@ export const projectInfo: ProjectInfo = {
 
 export const problemaContexto = {
   resumen:
-    'Una empresa de mensajería presenta retrasos frecuentes en la entrega de paquetes y pérdidas durante el proceso logístico. La operación actual es predominantemente manual: las rutas se asignan a criterio del supervisor, el seguimiento se hace por teléfono y los registros de entrega quedan en formularios físicos, lo que dificulta la trazabilidad y la generación oportuna de facturas.',
+    'En entornos académicos y profesionales se pierde visibilidad sobre prioridades, fechas límite y cambios hechos por otros. TaskManager centraliza tareas con estados, vencimientos y actualizaciones en vivo para reducir el retrabajo y mantener al equipo alineado sin recurrir a hilos de mensajería o documentos paralelos.',
   contexto:
-    'El sistema propuesto pretende digitalizar la operación de extremo a extremo: desde el registro del pedido por parte del cliente, pasando por la asignación automatizada de rutas y el seguimiento en tiempo real de la entrega, hasta la generación de reportes de desempeño para la gerencia. El alcance es el análisis de requerimientos y el modelado UML del sistema; la implementación funcional queda fuera del alcance.',
+    'Se necesita un sistema coherente que separe claramente presentación, lógica de negocio y datos, permitiendo evolucionar el frontend sin acoplarlo al detalle del servidor. El alcance abarca autenticación con token (Sanctum), CRUD de tareas y canales realtime (Reverb + Echo). El backend se documenta automáticamente con OpenAPI vía Scramble; el frontend es una SPA Vue 3 con Pinia y Vue Router.',
   actualmente: [
-    'Las rutas se asignan manualmente por el supervisor logístico.',
-    'El seguimiento de pedidos se realiza vía telefónica.',
-    'Las entregas se registran en formularios físicos.',
-    'La facturación se genera de forma manual.',
+    'Las tareas se reparten por chats y documentos sueltos sin un estado canónico.',
+    'No hay forma de saber en vivo qué cambió ni quién lo cambió.',
+    'El frontend y el backend se acoplan a la implementación, no a un contrato.',
+    'La documentación de la API se escribe a mano y queda desactualizada.',
   ],
   problemas: [
-    'Paquetes extraviados por falta de trazabilidad.',
-    'Retrasos frecuentes en las entregas.',
-    'Falta de trazabilidad operativa.',
-    'Generación de facturas manual y propensa a errores.',
+    'Retrabajo por tareas desactualizadas o duplicadas.',
+    'Pérdida de visibilidad sobre vencimientos y estados.',
+    'Acoplamiento fuerte entre presentación, lógica y datos.',
+    'Ausencia de un contrato HTTP confiable entre cliente y servidor.',
   ],
   seRequiere: [
-    'Registrar los pedidos de manera digital.',
-    'Asignar rutas automáticamente al repartidor disponible.',
-    'Realizar seguimiento de las entregas en tiempo real.',
-    'Generar reportes de desempeño y entregas.',
+    'Autenticar usuarios mediante token Sanctum y verificar correo.',
+    'CRUD completo de tareas con paginación y validación servidor.',
+    'Canales realtime autenticados (Echo + Reverb) para reflejar cambios sin recargar.',
+    'Documentación OpenAPI generada y publicada con Scramble (UI + JSON).',
   ],
 }

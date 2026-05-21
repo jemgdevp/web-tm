@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {
   User,
-  Truck,
-  Map,
-  ShieldCheck,
+  UserPlus,
+  UserCheck,
+  Radio,
   Users,
   type LucideIcon,
 } from 'lucide-vue-next'
@@ -20,9 +20,9 @@ const props = defineProps<Props>()
 
 const iconMap: Record<string, LucideIcon> = {
   User,
-  Truck,
-  Map,
-  ShieldCheck,
+  UserPlus,
+  UserCheck,
+  Radio,
   Users,
 }
 

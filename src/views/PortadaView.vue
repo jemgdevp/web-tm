@@ -192,7 +192,7 @@ const tituloWords = projectInfo.titulo.split(' ')
           to="/problema"
           class="group inline-flex min-h-11 items-center gap-3 rounded-md bg-brand px-5 py-3 text-sm font-medium text-brand-foreground shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          Comenzar el análisis
+          Comenzar la exposición
           <ArrowRight data-cta-arrow class="size-4" />
         </RouterLink>
         <span class="text-xs text-muted-foreground">— 7 secciones</span>

@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { User, Truck, Map, ShieldCheck, type LucideIcon } from 'lucide-vue-next'
+import {
+  LogIn,
+  ListTodo,
+  FileEdit,
+  Radio,
+  type LucideIcon,
+} from 'lucide-vue-next'
 import PageHeader from '@/components/layout/PageHeader.vue'
 import MockupFrame from '@/components/mockups/MockupFrame.vue'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { useSectionAnimation } from '@/composables/useSectionAnimation'
 
-import ClienteCrearPedido from '@/components/mockups/cliente/ClienteCrearPedido.vue'
-import ClienteRastrearPedido from '@/components/mockups/cliente/ClienteRastrearPedido.vue'
-import RepartidorRutaDelDia from '@/components/mockups/repartidor/RepartidorRutaDelDia.vue'
-import RepartidorConfirmarEntrega from '@/components/mockups/repartidor/RepartidorConfirmarEntrega.vue'
-import SupervisorAsignarRutas from '@/components/mockups/supervisor/SupervisorAsignarRutas.vue'
-import SupervisorMonitoreo from '@/components/mockups/supervisor/SupervisorMonitoreo.vue'
-import AdministradorReportes from '@/components/mockups/administrador/AdministradorReportes.vue'
-import AdministradorUsuarios from '@/components/mockups/administrador/AdministradorUsuarios.vue'
+import HomeGuest from '@/components/mockups/taskmanager/HomeGuest.vue'
+import TasksList from '@/components/mockups/taskmanager/TasksList.vue'
+import TaskModal from '@/components/mockups/taskmanager/TaskModal.vue'
+import RealtimeConsole from '@/components/mockups/taskmanager/RealtimeConsole.vue'
 
 useSectionAnimation()
 
@@ -27,121 +29,94 @@ interface MockupItem {
 }
 
 interface Grupo {
-  id: 'cliente' | 'repartidor' | 'supervisor' | 'administrador'
+  id: 'cu-01' | 'cu-02' | 'cu-03' | 'cu-04'
   nombre: string
   icon: LucideIcon
   descripcion: string
   frame: 'desktop' | 'mobile'
   cu: string
+  tipo: 'Primario' | 'Secundario'
   mockups: MockupItem[]
 }
 
 const grupos: Grupo[] = [
   {
-    id: 'cliente',
-    nombre: 'Cliente',
-    icon: User,
-    frame: 'mobile',
+    id: 'cu-01',
+    nombre: 'Registrarse / Iniciar sesión',
+    icon: LogIn,
+    frame: 'desktop',
     cu: 'CU-01',
+    tipo: 'Primario',
     descripcion:
-      'Aplicación móvil para que el cliente registre nuevos envíos y consulte en tiempo real el estado de su paquete.',
+      'Landing público (guest.home) con el hero del producto y los dos accesos: modal de Login/Register y enlace a la documentación OpenAPI generada por Scramble.',
     mockups: [
       {
-        id: 'crear',
-        titulo: 'Crear pedido',
-        caption: 'CU-01 Registrar pedido · «include» Calcular tarifa',
-        url: 'app.logistica.app/nuevo',
-        device: 'iPhone 14',
-        component: ClienteCrearPedido,
-      },
-      {
-        id: 'rastrear',
-        titulo: 'Rastrear pedido',
-        caption: 'RF-04 Rastrear paquete en tiempo real',
-        url: 'app.logistica.app/seguimiento',
-        device: 'iPhone 14',
-        component: ClienteRastrearPedido,
+        id: 'home',
+        titulo: 'Home pública',
+        caption: 'CU-01 · ruta guest.home · path /',
+        url: 'task-manager.app',
+        device: 'Desktop · 1440 px',
+        component: HomeGuest,
       },
     ],
   },
   {
-    id: 'repartidor',
-    nombre: 'Repartidor',
-    icon: Truck,
-    frame: 'mobile',
+    id: 'cu-02',
+    nombre: 'Listar y paginar tareas',
+    icon: ListTodo,
+    frame: 'desktop',
     cu: 'CU-02',
+    tipo: 'Primario',
     descripcion:
-      'Aplicación móvil del repartidor para gestionar la ruta del día y confirmar entregas con captura de evidencia.',
+      'Vista tasks.index protegida por meta.requiresAuth. Carga GET /api/tasks?page=1 con Bearer y muestra la colección paginada con estados pending / in_progress / done.',
     mockups: [
       {
-        id: 'ruta',
-        titulo: 'Ruta del día',
-        caption: 'CU-02 Realizar entrega — visión general',
-        url: 'app.logistica.app/ruta',
-        device: 'Pixel 8',
-        component: RepartidorRutaDelDia,
-      },
-      {
-        id: 'confirmar',
-        titulo: 'Confirmar entrega',
-        caption: 'CU-02 · «include» Registrar evidencia',
-        url: 'app.logistica.app/entregar',
-        device: 'Pixel 8',
-        component: RepartidorConfirmarEntrega,
+        id: 'list',
+        titulo: 'Mis tareas',
+        caption: 'CU-TASK-04 · «include» Validar token',
+        url: 'task-manager.app/tasks',
+        device: 'Desktop · 1440 px',
+        component: TasksList,
       },
     ],
   },
   {
-    id: 'supervisor',
-    nombre: 'Supervisor',
-    icon: Map,
+    id: 'cu-03',
+    nombre: 'Crear / editar / eliminar tarea',
+    icon: FileEdit,
     frame: 'desktop',
     cu: 'CU-03',
+    tipo: 'Primario',
     descripcion:
-      'Consola web del supervisor logístico para asignar rutas y monitorear el operativo en tiempo real.',
+      'Modal del CRUD: POST /api/tasks para crear, PUT/PATCH /api/tasks/{id} para editar y DELETE /api/tasks/{id} para eliminar. Tras la respuesta OK la SPA actualiza la lista y queda a la escucha de eventos broadcast.',
     mockups: [
       {
-        id: 'asignar',
-        titulo: 'Asignar rutas',
-        caption: 'CU-03 Asignar ruta automáticamente · «include» Optimizar ruta',
-        url: 'logistica.app/asignacion',
+        id: 'modal',
+        titulo: 'Nueva tarea',
+        caption: 'CU-TASK-05 · POST /api/tasks',
+        url: 'task-manager.app/tasks (modal)',
         device: 'Desktop · 1440 px',
-        component: SupervisorAsignarRutas,
-      },
-      {
-        id: 'monitoreo',
-        titulo: 'Monitoreo operativo',
-        caption: 'RF-04 + RU-05 Vista en tiempo real',
-        url: 'logistica.app/monitoreo',
-        device: 'Desktop · 1440 px',
-        component: SupervisorMonitoreo,
+        component: TaskModal,
       },
     ],
   },
   {
-    id: 'administrador',
-    nombre: 'Administrador',
-    icon: ShieldCheck,
+    id: 'cu-04',
+    nombre: 'Sincronización en tiempo real',
+    icon: Radio,
     frame: 'desktop',
     cu: 'CU-04',
+    tipo: 'Secundario',
     descripcion:
-      'Panel administrativo para reportes ejecutivos y gestión integral de usuarios y roles.',
+      'Suscripción Echo a los canales tasks y user.{id}.tasks. Los eventos TaskCreated, TaskUpdated y TaskDeleted refrescan la lista local sin recargar la página.',
     mockups: [
       {
-        id: 'reportes',
-        titulo: 'Reportes',
-        caption: 'CU-04 Generar reporte de desempeño',
-        url: 'logistica.app/reportes',
+        id: 'console',
+        titulo: 'DevTools — Echo',
+        caption: 'CU-RT-06 · canales tasks + user.{id}.tasks',
+        url: 'task-manager.app/tasks (devtools)',
         device: 'Desktop · 1440 px',
-        component: AdministradorReportes,
-      },
-      {
-        id: 'usuarios',
-        titulo: 'Usuarios y roles',
-        caption: 'RF-08 Gestionar usuarios y roles',
-        url: 'logistica.app/usuarios',
-        device: 'Desktop · 1440 px',
-        component: AdministradorUsuarios,
+        component: RealtimeConsole,
       },
     ],
   },
@@ -153,10 +128,10 @@ const grupos: Grupo[] = [
     <PageHeader
       :numero="7"
       titulo="Mockups"
-      subtitulo="Vista previa interactiva de las interfaces principales por actor. Cliente y Repartidor operan desde móvil; Supervisor y Administrador desde dashboard web. Cada mockup se alinea con uno de los casos de uso identificados."
+      subtitulo="Cada mockup enlaza un caso de uso del diagrama con pantallas concretas de la SPA Vue Router. Los CU primarios cubren el objetivo del sistema; los secundarios complementan (docs, tiempo real)."
     />
 
-    <Tabs default-value="cliente" data-anim class="w-full">
+    <Tabs default-value="cu-01" data-anim class="w-full">
       <TabsList
         class="grid h-auto w-full grid-cols-2 gap-1 bg-muted/50 p-1 sm:grid-cols-4"
       >
@@ -191,8 +166,8 @@ const grupos: Grupo[] = [
               <Badge class="bg-brand text-brand-foreground hover:bg-brand/90 font-mono text-[10px]">
                 {{ g.cu }}
               </Badge>
-              <Badge variant="outline" class="font-mono text-[10px] capitalize">
-                {{ g.frame === 'mobile' ? 'aplicación móvil' : 'panel web' }}
+              <Badge variant="outline" class="font-mono text-[10px]">
+                {{ g.tipo }}
               </Badge>
             </div>
             <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -202,12 +177,7 @@ const grupos: Grupo[] = [
         </div>
 
         <!-- Mockups -->
-        <div
-          :class="[
-            'gap-6 sm:gap-8',
-            g.frame === 'mobile' ? 'grid sm:grid-cols-2' : 'flex flex-col',
-          ]"
-        >
+        <div class="flex flex-col gap-6 sm:gap-8">
           <MockupFrame
             v-for="m in g.mockups"
             :key="m.id"

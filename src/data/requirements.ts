@@ -4,221 +4,203 @@ export const requirementGroups: RequirementGroup[] = [
   {
     categoria: 'negocio',
     titulo: 'Requerimientos de negocio',
-    subtitulo: 'Objetivos estratégicos que el sistema debe apoyar',
+    subtitulo: '¿Por qué existe TaskManager?',
     items: [
       {
         codigo: 'RN-01',
-        nombre: 'Reducir paquetes extraviados',
+        nombre: 'Centralizar tareas',
         descripcion:
-          'El sistema debe permitir disminuir en al menos un 80% los paquetes extraviados, mediante trazabilidad punto a punto.',
+          'Reducir el retrabajo y la pérdida de visibilidad consolidando tareas, estados y vencimientos en un único sistema operado por la SPA.',
       },
       {
         codigo: 'RN-02',
-        nombre: 'Reducir retrasos en entregas',
+        nombre: 'Reducir tiempo de coordinación',
         descripcion:
-          'El sistema debe contribuir a disminuir el tiempo promedio de entrega, mediante asignación automática y monitoreo en tiempo real.',
+          'Disminuir el ciclo de coordinación entre miembros del equipo mostrando cambios en vivo (broadcasting) en vez de notificaciones manuales.',
       },
       {
         codigo: 'RN-03',
-        nombre: 'Aumentar trazabilidad operativa',
+        nombre: 'Arquitectura desacoplada',
         descripcion:
-          'La empresa debe contar con visibilidad completa del ciclo del paquete: desde el registro hasta la entrega final.',
+          'Separar presentación (Vue 3), lógica de negocio (Laravel) y datos (BD) para evolucionar el frontend sin acoplarlo a detalles del servidor.',
       },
       {
         codigo: 'RN-04',
-        nombre: 'Automatizar la facturación',
+        nombre: 'Contrato HTTP confiable',
         descripcion:
-          'El sistema debe generar facturas automáticamente a partir de los pedidos completados, eliminando la facturación manual.',
+          'Publicar y mantener un contrato OpenAPI 3 generado automáticamente con Scramble para que cualquier cliente pueda integrarse sin adivinar formatos.',
       },
       {
         codigo: 'RN-05',
-        nombre: 'Mejorar la satisfacción del cliente',
+        nombre: 'Despliegue reproducible',
         descripcion:
-          'Ofrecer al cliente información actualizada del estado de su paquete sin necesidad de contactar al call center.',
+          'Operar bajo un esquema de despliegue reproducible (Dokploy + Docker) con HTTPS y restricción de docs según entorno.',
       },
     ],
   },
   {
     categoria: 'usuario',
     titulo: 'Requerimientos del usuario',
-    subtitulo: 'Necesidades expresadas por cada actor del sistema',
+    subtitulo: '¿Qué debe poder hacer el actor?',
     items: [
       {
         codigo: 'RU-01',
-        nombre: 'Cliente — rastreo del paquete',
+        nombre: 'Invitado — registrarse e iniciar sesión',
         descripcion:
-          'El cliente quiere rastrear su paquete en tiempo real desde cualquier dispositivo, sin tener que llamar a la empresa.',
+          'El invitado quiere registrarse y/o iniciar sesión desde el landing público sin instalar nada, obteniendo un token que persista en su navegador.',
       },
       {
         codigo: 'RU-02',
-        nombre: 'Cliente — registro rápido',
+        nombre: 'Invitado — explorar la API',
         descripcion:
-          'El cliente quiere registrar un nuevo pedido en menos de dos minutos, indicando origen, destino y características del paquete.',
+          'El invitado técnico quiere abrir la documentación OpenAPI desde la SPA para entender los endpoints antes de integrarse.',
       },
       {
         codigo: 'RU-03',
-        nombre: 'Repartidor — ruta digital',
+        nombre: 'Usuario — listar tareas paginado',
         descripcion:
-          'El repartidor quiere ver su ruta del día desde el móvil, sin depender de papeles, con la dirección y los datos del destinatario.',
+          'El usuario autenticado quiere listar sus tareas paginadas con estado y vencimiento, sin recargar la página para ver los últimos cambios.',
       },
       {
         codigo: 'RU-04',
-        nombre: 'Repartidor — confirmación de entrega',
+        nombre: 'Usuario — CRUD de tareas',
         descripcion:
-          'El repartidor quiere registrar la entrega con evidencia (foto y firma) y que el cambio se refleje inmediatamente para el cliente y el supervisor.',
+          'El usuario quiere crear, editar y eliminar tareas desde un modal con validación inmediata y feedback de errores.',
       },
       {
         codigo: 'RU-05',
-        nombre: 'Supervisor — asignación eficiente',
+        nombre: 'Usuario — verificar correo',
         descripcion:
-          'El supervisor quiere asignar rutas en pocos clics y que el sistema sugiera la asignación óptima según ubicación y carga de cada repartidor.',
+          'El usuario quiere verificar su correo siguiendo un enlace firmado para acceder a las rutas protegidas que exigen verificación.',
       },
       {
         codigo: 'RU-06',
-        nombre: 'Administrador — reportes',
+        nombre: 'Usuario — sincronización realtime',
         descripcion:
-          'El administrador quiere obtener reportes de desempeño, entregas y facturación con datos confiables y filtros por fecha y zona.',
+          'El usuario quiere que los cambios hechos por otros clientes (u otro equipo del mismo usuario) aparezcan automáticamente en su lista.',
       },
     ],
   },
   {
     categoria: 'sistema',
     titulo: 'Requerimientos del sistema',
-    subtitulo: 'Capacidades técnicas que la plataforma debe ofrecer',
+    subtitulo: '¿Cómo lo cumple técnicamente?',
     items: [
       {
         codigo: 'RS-01',
-        nombre: 'Arquitectura multi-rol',
+        nombre: 'Patrón cliente-servidor',
         descripcion:
-          'El sistema debe soportar 4 roles diferenciados: cliente, repartidor, supervisor logístico y administrador, con permisos específicos por rol.',
+          'API REST JSON Laravel 12 consumida por una SPA Vue 3; la base de datos solo es accedida desde el backend.',
       },
       {
         codigo: 'RS-02',
-        nombre: 'Persistencia de datos',
+        nombre: 'Auth con Sanctum',
         descripcion:
-          'Toda la información de pedidos, rutas, entregas, usuarios y facturación debe persistir en una base de datos.',
+          'Autenticación por token Bearer; rutas protegidas con middleware auth:sanctum y guardas Vue Router con meta.requiresAuth.',
       },
       {
         codigo: 'RS-03',
-        nombre: 'Integración cartográfica',
+        nombre: 'Estado y consumo Axios',
         descripcion:
-          'El sistema debe integrarse con un servicio de mapas para la asignación de rutas y la geolocalización de paquetes.',
+          'Pinia para el estado (auth, tasks) y Axios con interceptor de Authorization para todas las llamadas autenticadas.',
       },
       {
         codigo: 'RS-04',
-        nombre: 'Notificaciones',
+        nombre: 'Broadcasting con Reverb + Echo',
         descripcion:
-          'El sistema debe enviar notificaciones (in-app, email o SMS) cuando el estado de un pedido cambie.',
+          'Eventos del dominio publicados al canal tasks y a canales privados user.{id}.tasks; el cliente se suscribe vía Laravel Echo.',
       },
       {
         codigo: 'RS-05',
-        nombre: 'Cliente móvil y web',
+        nombre: 'Documentación con Scramble',
         descripcion:
-          'El sistema debe ofrecer una interfaz web responsiva y una aplicación móvil para los repartidores.',
+          'UI Scramble en /docs/api, JSON OpenAPI en /docs/api.json, redirecciones y export artisan para CI.',
       },
     ],
   },
   {
     categoria: 'funcional',
-    titulo: 'Requerimientos funcionales',
-    subtitulo: 'Funciones concretas que el sistema debe ejecutar',
+    titulo: 'Requerimientos funcionales (RF)',
+    subtitulo: 'Funciones del sistema modeladas por casos de uso',
     items: [
       {
         codigo: 'RF-01',
-        nombre: 'Registrar pedido',
+        nombre: 'Registrar e iniciar sesión',
         descripcion:
-          'Permitir al cliente registrar un nuevo pedido indicando origen, destino, peso, dimensiones y descripción del paquete.',
+          'POST /api/register y POST /api/login en el backend; emisión de token Sanctum y persistencia en localStorage desde el store auth.',
       },
       {
         codigo: 'RF-02',
-        nombre: 'Calcular tarifa',
+        nombre: 'CRUD de tareas con validación',
         descripcion:
-          'Calcular automáticamente la tarifa de envío con base en distancia, peso y dimensiones.',
+          'TaskController con políticas; rutas GET|POST|PUT|PATCH|DELETE /api/tasks; vista tasks.index y store de tareas en la SPA.',
       },
       {
         codigo: 'RF-03',
-        nombre: 'Asignar ruta automáticamente',
+        nombre: 'Publicar contrato OpenAPI',
         descripcion:
-          'Asignar el pedido al repartidor más adecuado en función de su ubicación, carga actual y zona de cobertura.',
+          'UI Scramble y endpoint JSON; atributos en controladores y export estático con artisan scramble:export.',
       },
       {
         codigo: 'RF-04',
-        nombre: 'Rastrear paquete en tiempo real',
+        nombre: 'Autorizar canales de broadcasting',
         descripcion:
-          'Mostrar al cliente y al supervisor la ubicación y el estado actual del paquete a lo largo de toda la operación.',
+          'POST /api/broadcasting/auth con Sanctum; configuración Echo en plugins/echo.js (canales tasks y user.{id}.tasks).',
       },
       {
         codigo: 'RF-05',
-        nombre: 'Registrar entrega con evidencia',
+        nombre: 'Verificación de correo',
         descripcion:
-          'Permitir al repartidor marcar el paquete como entregado y adjuntar evidencia (foto, firma, observación).',
+          'Endpoint firmado GET /api/email/verify/{id}/{hash} y POST /api/email/verification-notification; flujo cliente en auth.verify-email.',
       },
       {
         codigo: 'RF-06',
-        nombre: 'Generar factura',
+        nombre: 'Cerrar sesión',
         descripcion:
-          'Generar automáticamente la factura del envío una vez completada la entrega.',
-      },
-      {
-        codigo: 'RF-07',
-        nombre: 'Generar reportes',
-        descripcion:
-          'Producir reportes de desempeño, entregas, retrasos y facturación con filtros por fecha, zona y repartidor.',
-      },
-      {
-        codigo: 'RF-08',
-        nombre: 'Gestionar usuarios y roles',
-        descripcion:
-          'Permitir al administrador crear, modificar y desactivar cuentas de usuario, asignando roles y permisos.',
+          'POST /api/logout best-effort y limpieza local de token y suscripciones Echo.',
       },
     ],
   },
   {
     categoria: 'no-funcional',
-    titulo: 'Requerimientos no funcionales',
-    subtitulo: 'Atributos de calidad transversales al sistema',
+    titulo: 'Requerimientos no funcionales (RNF)',
+    subtitulo: 'Restricciones de calidad, seguridad y operación',
     items: [
       {
         codigo: 'RNF-01',
-        nombre: 'Rendimiento',
+        nombre: 'Seguridad de transporte',
         descripcion:
-          'El tiempo de respuesta del sistema en operaciones críticas debe ser inferior a 2 segundos bajo carga normal.',
+          'HTTPS en producción para todas las llamadas API y WebSocket; token Bearer obligatorio en rutas protegidas.',
       },
       {
         codigo: 'RNF-02',
-        nombre: 'Disponibilidad',
+        nombre: 'Control de acceso a docs',
         descripcion:
-          'El sistema debe ofrecer una disponibilidad mensual igual o superior al 99,5%.',
+          'Acceso a la documentación restringido por entorno mediante SCRAMBLE_PUBLIC_DOCS y SCRAMBLE_ALLOWED_EMAILS.',
       },
       {
         codigo: 'RNF-03',
-        nombre: 'Escalabilidad',
+        nombre: 'Rendimiento en listados',
         descripcion:
-          'La plataforma debe soportar al menos 1.000 usuarios concurrentes sin degradación significativa.',
+          'Paginación obligatoria en GET /api/tasks?page=n; el cliente nunca solicita listados completos.',
       },
       {
         codigo: 'RNF-04',
-        nombre: 'Usabilidad',
+        nombre: 'Usabilidad responsive',
         descripcion:
-          'Las interfaces deben ser responsivas y seguir buenas prácticas de UX, accesibles para usuarios sin conocimiento técnico.',
+          'SPA Vue 3 responsive con feedback de errores Axios y atajos de teclado para la presentación.',
       },
       {
         codigo: 'RNF-05',
-        nombre: 'Seguridad',
+        nombre: 'Disponibilidad operativa',
         descripcion:
-          'Las contraseñas se almacenan cifradas, las comunicaciones se realizan sobre HTTPS y los accesos quedan auditados.',
+          'Despliegue gestionado por Dokploy con multi-stage Docker; el servicio Reverb es opcional y se degrada el realtime sin romper el CRUD.',
       },
       {
         codigo: 'RNF-06',
-        nombre: 'Respaldo',
-        descripcion:
-          'Debe existir un respaldo diario automatizado de la base de datos con retención mínima de 30 días.',
-      },
-      {
-        codigo: 'RNF-07',
         nombre: 'Idioma',
         descripcion:
-          'La interfaz del sistema debe estar disponible en español.',
+          'La SPA y los mensajes generados desde el servidor en flujos visibles al usuario se entregan en español.',
       },
     ],
   },

@@ -1,4 +1,4 @@
-export type ActorId = 'cliente' | 'repartidor' | 'supervisor' | 'administrador'
+export type ActorId = string
 
 export interface Actor {
   id: ActorId
