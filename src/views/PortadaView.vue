@@ -68,7 +68,7 @@ const tituloWords = projectInfo.titulo.split(' ')
 
 <template>
   <section
-    class="relative isolate flex min-h-[70vh] flex-col items-center justify-center overflow-hidden text-center sm:min-h-[75vh] md:min-h-[80vh]"
+    class="snap-slide relative isolate flex min-h-[70vh] flex-col items-center justify-center overflow-hidden text-center sm:min-h-[75vh] md:min-h-[80vh]"
   >
     <!-- Background grid + radial gradient -->
     <div
@@ -147,34 +147,34 @@ const tituloWords = projectInfo.titulo.split(' ')
         class="mt-14 grid w-full max-w-3xl gap-x-10 gap-y-6 rounded-xl border border-border bg-card/80 p-5 text-left text-sm backdrop-blur sm:grid-cols-2 sm:p-6 md:p-8"
       >
         <div data-info>
-          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          <p class="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
             Estudiante
           </p>
-          <p class="mt-1.5 text-base font-medium">{{ projectInfo.estudiante.nombre }}</p>
+          <p class="mt-1.5 text-lg font-medium">{{ projectInfo.estudiante.nombre }}</p>
         </div>
         <div data-info>
-          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          <p class="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
             Identificación
           </p>
-          <p class="mt-1.5 text-base font-medium">{{ projectInfo.estudiante.identificacion }}</p>
+          <p class="mt-1.5 text-lg font-medium">{{ projectInfo.estudiante.identificacion }}</p>
         </div>
         <div data-info>
-          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          <p class="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
             Asignatura
           </p>
-          <p class="mt-1.5 text-base font-medium">{{ projectInfo.asignatura }}</p>
+          <p class="mt-1.5 text-lg font-medium">{{ projectInfo.asignatura }}</p>
         </div>
         <div data-info>
-          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          <p class="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
             Carrera
           </p>
-          <p class="mt-1.5 text-base font-medium">{{ projectInfo.carrera }}</p>
+          <p class="mt-1.5 text-lg font-medium">{{ projectInfo.carrera }}</p>
         </div>
         <div data-info class="sm:col-span-2">
-          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          <p class="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
             Universidad
           </p>
-          <p class="mt-1.5 flex items-center gap-2 text-base font-medium">
+          <p class="mt-1.5 flex items-center gap-2 text-lg font-medium">
             <MapPin class="size-4 text-brand" />
             {{ projectInfo.universidad }}
             <span v-if="projectInfo.ciudad" class="font-normal text-muted-foreground">
@@ -190,12 +190,12 @@ const tituloWords = projectInfo.titulo.split(' ')
       <div ref="cta" class="mt-12 flex items-center justify-center gap-2">
         <RouterLink
           to="/problema"
-          class="group inline-flex min-h-11 items-center gap-3 rounded-md bg-brand px-5 py-3 text-sm font-medium text-brand-foreground shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          class="group inline-flex min-h-12 items-center gap-3 rounded-lg bg-brand px-6 py-3.5 text-base font-medium text-brand-foreground shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           Comenzar la exposición
-          <ArrowRight data-cta-arrow class="size-4" />
+          <ArrowRight data-cta-arrow class="size-5" />
         </RouterLink>
-        <span class="text-xs text-muted-foreground">— 7 secciones</span>
+        <span class="text-sm text-muted-foreground">— 7 secciones</span>
       </div>
     </div>
   </section>

@@ -8,15 +8,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { useSectionAnimation } from '@/composables/useSectionAnimation'
 import {
   archPillars,
@@ -32,34 +34,32 @@ useSectionAnimation()
 </script>
 
 <template>
-  <section>
+  <section class="snap-slide">
     <PageHeader
       :numero="4"
       titulo="Arquitectura del sistema"
-      subtitulo="Patrón cliente-servidor con API REST JSON. El frontend Vue consume la API Laravel; la capa de broadcasting notifica cambios por WebSockets (Reverb) a clientes suscritos vía Echo."
+      subtitulo="Cliente-servidor con API REST JSON. Vue consume Laravel; broadcasting realtime con Reverb + Echo."
     />
 
     <!-- Pilares Backend / Frontend -->
-    <div data-anim class="mb-10 grid gap-4 md:grid-cols-2 sm:gap-5">
+    <div data-anim class="mb-10 grid gap-5 md:grid-cols-2">
       <Card v-for="(p, i) in archPillars" :key="p.titulo" class="border-border">
         <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-          <span
-            class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand"
-          >
-            <component :is="i === 0 ? Server : Monitor" class="size-4" />
+          <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+            <component :is="i === 0 ? Server : Monitor" class="size-6" />
           </span>
-          <CardTitle class="text-base">{{ p.titulo }}</CardTitle>
+          <CardTitle class="text-xl">{{ p.titulo }}</CardTitle>
         </CardHeader>
         <CardContent>
-          <ul class="space-y-2.5">
+          <ul class="space-y-3">
             <li
               v-for="(b, j) in p.bullets"
               :key="j"
-              class="flex gap-2.5 text-sm leading-relaxed text-foreground"
+              class="flex gap-3 text-base leading-relaxed text-foreground"
             >
               <span
                 aria-hidden="true"
-                class="mt-2 inline-block size-1 shrink-0 rounded-full bg-brand"
+                class="mt-2.5 inline-block size-1.5 shrink-0 rounded-full bg-brand"
               />
               <span>{{ b }}</span>
             </li>
@@ -68,59 +68,50 @@ useSectionAnimation()
       </Card>
     </div>
 
-    <!-- Mapeo RF / RNF -->
+    <!-- Mapeo RF / RNF — grid de cards (sin tabla densa) -->
     <Card data-anim class="mb-10 border-border">
       <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-        <span class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand">
-          <ArrowRightLeft class="size-4" />
+        <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+          <ArrowRightLeft class="size-6" />
         </span>
-        <CardTitle class="text-base">De requerimientos a software</CardTitle>
+        <CardTitle class="text-xl">De requerimientos a software</CardTitle>
       </CardHeader>
       <CardContent>
-        <p class="mb-4 text-sm text-muted-foreground">
-          Los RF se modelan con casos de uso; los RNF restringen calidad, seguridad y operación. Aquí
-          se relacionan con piezas concretas del repositorio TaskManager.
-        </p>
-        <div class="-mx-4 overflow-x-auto sm:mx-0">
-          <div class="overflow-hidden rounded-lg border border-border">
-            <Table class="min-w-[640px]">
-              <TableHeader>
-                <TableRow>
-                  <TableHead class="w-16">Tipo</TableHead>
-                  <TableHead>Requerimiento</TableHead>
-                  <TableHead>Dónde se materializa</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow v-for="(row, i) in rfRnfMapping" :key="i">
-                  <TableCell>
-                    <Badge
-                      :variant="row.tipo === 'RF' ? 'default' : 'secondary'"
-                      class="font-mono text-[11px]"
-                      :class="row.tipo === 'RF' ? 'bg-brand text-brand-foreground hover:bg-brand/90' : ''"
-                    >
-                      {{ row.tipo }}
-                    </Badge>
-                  </TableCell>
-                  <TableCell class="font-medium">{{ row.requerimiento }}</TableCell>
-                  <TableCell class="font-mono text-xs text-muted-foreground">
-                    {{ row.ubicacion }}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <HoverCard v-for="(row, i) in rfRnfMapping" :key="i" :open-delay="120">
+            <HoverCardTrigger as-child>
+              <button
+                type="button"
+                class="flex w-full items-center gap-3 rounded-lg border border-border bg-card/60 p-4 text-left transition-colors hover:border-brand/60 hover:bg-brand/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Badge
+                  :variant="row.tipo === 'RF' ? 'default' : 'secondary'"
+                  class="shrink-0 font-mono text-sm"
+                  :class="row.tipo === 'RF' ? 'bg-brand text-brand-foreground hover:bg-brand/90' : ''"
+                >
+                  {{ row.tipo }}
+                </Badge>
+                <span class="font-medium text-foreground">{{ row.requerimiento }}</span>
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent class="w-96">
+              <p class="mb-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                Se materializa en
+              </p>
+              <code class="break-all font-mono text-sm text-brand">{{ row.ubicacion }}</code>
+            </HoverCardContent>
+          </HoverCard>
         </div>
       </CardContent>
     </Card>
 
-    <!-- Flujo general (flowchart) -->
+    <!-- Flujo general (Mermaid — intocable) -->
     <Card data-anim class="mb-10 border-border">
       <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-        <span class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand">
-          <Workflow class="size-4" />
+        <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+          <Workflow class="size-6" />
         </span>
-        <CardTitle class="text-base">Flujo general</CardTitle>
+        <CardTitle class="text-xl">Flujo general</CardTitle>
       </CardHeader>
       <CardContent>
         <MermaidDiagram
@@ -131,111 +122,120 @@ useSectionAnimation()
       </CardContent>
     </Card>
 
-    <!-- Documentación Scramble -->
+    <!-- Documentación Scramble — chips con HoverCard -->
     <Card data-anim class="mb-10 border-border">
       <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-        <span class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand">
-          <FileJson class="size-4" />
+        <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+          <FileJson class="size-6" />
         </span>
-        <CardTitle class="text-base">Documentación OpenAPI (Scramble)</CardTitle>
+        <CardTitle class="text-xl">Documentación OpenAPI (Scramble)</CardTitle>
       </CardHeader>
       <CardContent>
-        <p class="mb-4 text-sm text-muted-foreground">
-          Scramble analiza rutas y controladores y expone una UI interactiva más el JSON OpenAPI 3.
-        </p>
-        <ul class="space-y-2.5">
-          <li
-            v-for="d in scrambleDocs"
-            :key="d.ruta"
-            class="grid gap-1 rounded-md border border-border bg-card/60 p-3 sm:grid-cols-[minmax(0,auto)_1fr] sm:items-baseline sm:gap-4"
-          >
-            <code class="break-all font-mono text-xs text-brand">{{ d.ruta }}</code>
-            <span class="text-sm text-foreground">{{ d.descripcion }}</span>
-          </li>
-        </ul>
-      </CardContent>
-    </Card>
-
-    <!-- Rutas Vue Router -->
-    <Card data-anim class="mb-10 border-border">
-      <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-        <span class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand">
-          <RouteIcon class="size-4" />
-        </span>
-        <CardTitle class="text-base">Rutas Vue (Vue Router)</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p class="mb-4 text-sm text-muted-foreground">
-          Fuente: <code class="font-mono text-xs">task-manager-web/src/router/index.js</code>. Base:
-          <code class="font-mono text-xs">createWebHistory(import.meta.env.BASE_URL)</code>.
-        </p>
-        <div class="-mx-4 overflow-x-auto sm:mx-0">
-          <div class="overflow-hidden rounded-lg border border-border">
-            <Table class="min-w-[640px]">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Ruta</TableHead>
-                  <TableHead>Nombre</TableHead>
-                  <TableHead>Meta / notas</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow v-for="r in vueRoutes" :key="r.nombre">
-                  <TableCell class="font-mono text-xs">{{ r.ruta }}</TableCell>
-                  <TableCell class="font-mono text-xs">{{ r.nombre }}</TableCell>
-                  <TableCell class="text-sm text-muted-foreground">{{ r.meta }}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
+        <div class="flex flex-wrap gap-3">
+          <HoverCard v-for="d in scrambleDocs" :key="d.ruta" :open-delay="120">
+            <HoverCardTrigger as-child>
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-3 py-2 transition-colors hover:border-brand hover:bg-brand/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <code class="font-mono text-sm font-semibold text-brand">{{ d.ruta }}</code>
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent class="w-80">
+              <p class="text-sm text-foreground">{{ d.descripcion }}</p>
+            </HoverCardContent>
+          </HoverCard>
         </div>
-        <p class="mt-4 text-xs text-muted-foreground">
-          <strong>beforeEach:</strong> si la ruta tiene <code class="font-mono">requiresAuth</code> y no hay
-          token en <code class="font-mono">localStorage</code>, navega a <code class="font-mono">guest.home</code>.
-          Si <code class="font-mono">guestOnly</code> y hay sesión: si el email no está verificado →
-          <code class="font-mono">auth.verify-email</code>; si está verificado →
-          <code class="font-mono">tasks.index</code>.
-        </p>
       </CardContent>
     </Card>
 
-    <!-- Endpoints API -->
+    <!-- Rutas Vue — chips con HoverCard + Popover para lógica -->
     <Card data-anim class="mb-10 border-border">
-      <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-        <span class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand">
-          <Plug class="size-4" />
-        </span>
-        <CardTitle class="text-base">Endpoints API relevantes</CardTitle>
+      <CardHeader class="flex flex-row items-center justify-between gap-3 space-y-0 pb-3">
+        <div class="flex items-center gap-3">
+          <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+            <RouteIcon class="size-6" />
+          </span>
+          <CardTitle class="text-xl">Rutas Vue Router</CardTitle>
+        </div>
+        <Popover>
+          <PopoverTrigger as-child>
+            <button
+              type="button"
+              class="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Lógica beforeEach
+            </button>
+          </PopoverTrigger>
+          <PopoverContent class="w-96 text-sm" side="bottom" align="end">
+            <p class="leading-relaxed text-foreground">
+              <strong>beforeEach:</strong> si la ruta tiene <code class="font-mono text-xs">requiresAuth</code>
+              y no hay token en <code class="font-mono text-xs">localStorage</code> → navega a
+              <code class="font-mono text-xs">guest.home</code>. Si <code class="font-mono text-xs">guestOnly</code>
+              y hay sesión: email no verificado → <code class="font-mono text-xs">auth.verify-email</code>;
+              verificado → <code class="font-mono text-xs">tasks.index</code>.
+            </p>
+          </PopoverContent>
+        </Popover>
       </CardHeader>
       <CardContent>
-        <ul class="space-y-2.5">
-          <li
-            v-for="(e, i) in apiEndpoints"
-            :key="i"
-            class="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-md border border-border bg-card/60 p-3"
-          >
-            <Badge
-              variant="outline"
-              class="shrink-0 font-mono text-[10px]"
-            >
-              {{ e.metodo }}
-            </Badge>
-            <code class="break-all font-mono text-xs text-brand">{{ e.ruta }}</code>
-            <span class="basis-full text-sm text-muted-foreground sm:basis-auto">
-              — {{ e.descripcion }}
-            </span>
-          </li>
-        </ul>
+        <div class="flex flex-wrap gap-2">
+          <HoverCard v-for="r in vueRoutes" :key="r.nombre" :open-delay="120">
+            <HoverCardTrigger as-child>
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-3 py-2 font-mono text-sm transition-colors hover:border-brand hover:bg-brand/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <span class="text-brand">{{ r.ruta }}</span>
+                <span class="text-muted-foreground">·</span>
+                <span class="text-foreground">{{ r.nombre }}</span>
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent class="w-80 text-sm">
+              <p class="text-foreground">{{ r.meta }}</p>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
       </CardContent>
     </Card>
 
-    <!-- Secuencia: login + tarea realtime -->
+    <!-- Endpoints API — chips método + ruta con HoverCard -->
+    <Card data-anim class="mb-10 border-border">
+      <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
+        <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+          <Plug class="size-6" />
+        </span>
+        <CardTitle class="text-xl">Endpoints API relevantes</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div class="flex flex-wrap gap-2">
+          <HoverCard v-for="(e, i) in apiEndpoints" :key="i" :open-delay="120">
+            <HoverCardTrigger as-child>
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-lg border border-border bg-card/60 px-3 py-2 transition-colors hover:border-brand hover:bg-brand/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Badge variant="outline" class="shrink-0 font-mono text-xs">
+                  {{ e.metodo }}
+                </Badge>
+                <code class="font-mono text-sm text-brand">{{ e.ruta }}</code>
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent class="w-80 text-sm">
+              <p class="text-foreground">{{ e.descripcion }}</p>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
+      </CardContent>
+    </Card>
+
+    <!-- Secuencia (Mermaid — intocable) -->
     <Card data-anim class="border-border">
       <CardHeader class="flex flex-row items-center gap-3 space-y-0 pb-3">
-        <span class="flex size-9 items-center justify-center rounded-md bg-brand/15 text-brand">
-          <Workflow class="size-4" />
+        <span class="flex size-12 items-center justify-center rounded-xl bg-brand/15 text-brand">
+          <Workflow class="size-6" />
         </span>
-        <CardTitle class="text-base">Secuencia: login y tarea con realtime</CardTitle>
+        <CardTitle class="text-xl">Secuencia: login y tarea con realtime</CardTitle>
       </CardHeader>
       <CardContent>
         <MermaidDiagram

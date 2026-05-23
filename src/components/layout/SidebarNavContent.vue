@@ -22,6 +22,7 @@ import {
 import ThemeToggle from './ThemeToggle.vue'
 import ShortcutsButton from './ShortcutsButton.vue'
 import SidebarToggle from './SidebarToggle.vue'
+import PresenterToggle from './PresenterToggle.vue'
 
 interface Props {
   collapsed?: boolean
@@ -73,10 +74,10 @@ const activeName = computed(() => route.name)
         <ListTodo class="size-5" />
       </span>
       <div v-if="!props.collapsed" class="flex min-w-0 flex-1 flex-col">
-        <span class="truncate font-heading text-sm font-bold leading-tight">
+        <span class="truncate font-heading text-base font-bold leading-tight">
           {{ projectInfo.titulo }}
         </span>
-        <span class="text-[11px] uppercase tracking-wider text-muted-foreground">
+        <span class="text-xs uppercase tracking-wider text-muted-foreground">
           {{ projectInfo.asignatura }}
         </span>
       </div>
@@ -100,7 +101,7 @@ const activeName = computed(() => route.name)
     >
       <p
         v-if="!props.collapsed"
-        class="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+        class="px-3 pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
       >
         Secciones
       </p>
@@ -132,7 +133,7 @@ const activeName = computed(() => route.name)
                   />
                 </Transition>
                 <span
-                  class="inline-flex size-7 items-center justify-center rounded text-[10px] font-mono font-semibold"
+                  class="inline-flex size-8 items-center justify-center rounded text-xs font-mono font-semibold"
                   :class="
                     activeName === s.name
                       ? 'bg-brand text-brand-foreground'
@@ -148,7 +149,7 @@ const activeName = computed(() => route.name)
                 <component :is="iconMap[s.meta.icon] ?? BookOpenText" class="size-3.5 text-brand" />
                 <span class="text-xs font-semibold">{{ s.meta.titulo }}</span>
               </div>
-              <p class="mt-0.5 text-[10px] text-muted-foreground">
+              <p class="mt-0.5 text-xs text-muted-foreground">
                 {{ s.meta.subtitulo }}
               </p>
             </TooltipContent>
@@ -178,7 +179,7 @@ const activeName = computed(() => route.name)
               />
             </Transition>
             <span
-              class="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded text-[10px] font-mono font-semibold"
+              class="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded text-xs font-mono font-semibold"
               :class="
                 activeName === s.name
                   ? 'bg-brand text-brand-foreground'
@@ -192,7 +193,7 @@ const activeName = computed(() => route.name)
                 <component :is="iconMap[s.meta.icon] ?? BookOpenText" class="size-3.5" />
                 <span>{{ s.meta.titulo }}</span>
               </span>
-              <span class="mt-0.5 text-[11px] text-muted-foreground">
+              <span class="mt-0.5 text-xs text-muted-foreground">
                 {{ s.meta.subtitulo }}
               </span>
             </span>
@@ -211,19 +212,21 @@ const activeName = computed(() => route.name)
       ]"
     >
       <template v-if="props.collapsed">
+        <PresenterToggle />
         <ShortcutsButton />
         <ThemeToggle />
       </template>
 
       <template v-else>
         <div class="flex items-center justify-between">
-          <span class="text-[11px] text-muted-foreground">Atajos · Tema</span>
+          <span class="text-xs text-muted-foreground">Expositor · Atajos · Tema</span>
           <div class="flex items-center gap-1.5">
+            <PresenterToggle />
             <ShortcutsButton />
             <ThemeToggle />
           </div>
         </div>
-        <p class="text-[10px] leading-relaxed text-muted-foreground">
+        <p class="text-xs leading-relaxed text-muted-foreground">
           {{ projectInfo.universidad }} · {{ projectInfo.ano }}
         </p>
       </template>

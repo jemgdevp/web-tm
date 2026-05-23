@@ -7,6 +7,7 @@ import { useSidebar } from './useSidebar'
 import { useBreakpoint } from './useBreakpoint'
 
 export const isShortcutsOpen = ref(false)
+export const isCommandOpen = ref(false)
 
 export function useAppShortcuts() {
   const router = useRouter()
@@ -82,8 +83,25 @@ export function useAppShortcuts() {
       key: 'escape',
       handler: () => {
         isShortcutsOpen.value = false
+        isCommandOpen.value = false
       },
-      description: 'Cerrar el diálogo de atajos',
+      description: 'Cerrar diálogos abiertos',
+      scope: 'Interfaz',
+    },
+    {
+      key: 'meta+k',
+      handler: () => {
+        isCommandOpen.value = !isCommandOpen.value
+      },
+      description: 'Abrir buscador rápido (command palette)',
+      scope: 'Interfaz',
+    },
+    {
+      key: 'ctrl+k',
+      handler: () => {
+        isCommandOpen.value = !isCommandOpen.value
+      },
+      description: 'Abrir buscador rápido (command palette)',
       scope: 'Interfaz',
     },
   ])

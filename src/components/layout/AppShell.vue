@@ -6,21 +6,22 @@ import SidebarNav from './SidebarNav.vue'
 import MobileNavSheet from './MobileNavSheet.vue'
 import ShortcutsDialog from './ShortcutsDialog.vue'
 import ThemeToggle from './ThemeToggle.vue'
+import CommandPalette from './CommandPalette.vue'
 import { sectionRoutes } from '@/router'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { useSidebar } from '@/composables/useSidebar'
 import { useAppShortcuts } from '@/composables/useAppShortcuts'
 import { usePrefersReducedMotion } from '@/composables/usePrefersReducedMotion'
 import { usePageTitle } from '@/composables/usePageTitle'
+import { usePresenterMode } from '@/composables/usePresenterMode'
 
 const route = useRoute()
 const { isCollapsed, toggleMobile } = useSidebar()
 const prefersReducedMotion = usePrefersReducedMotion()
 
-// Registra los atajos globales una sola vez para toda la app.
 useAppShortcuts()
-// Sincroniza document.title con la sección actual.
 usePageTitle()
+usePresenterMode()
 
 const currentSection = computed(() => {
   const r = sectionRoutes.find((sr) => sr.name === route.name)
@@ -40,6 +41,7 @@ const totalSections = sectionRoutes.length
         :class="[
           'min-h-screen transition-[padding] duration-200',
           isCollapsed ? 'md:pl-16' : 'md:pl-72',
+          'presenter:md:pl-0',
         ]"
       >
         <!-- Mobile topbar -->
@@ -54,7 +56,7 @@ const totalSections = sectionRoutes.length
           >
             <Menu class="size-5" />
           </button>
-          <span class="font-heading text-sm font-bold">TaskManager — Exposición</span>
+          <span class="font-heading text-base font-bold">TaskManager — Exposición</span>
           <ThemeToggle />
         </div>
 
@@ -63,16 +65,16 @@ const totalSections = sectionRoutes.length
           v-if="currentSection"
           class="sticky top-0 z-10 hidden border-b border-border bg-background/80 px-8 py-3 backdrop-blur md:flex md:items-center md:justify-between"
         >
-          <div class="flex items-center gap-3 text-xs text-muted-foreground">
+          <div class="flex items-center gap-3 text-sm text-muted-foreground">
             <span class="font-mono">
               Sección {{ String(currentSection.numero).padStart(2, '0') }} / {{ String(totalSections).padStart(2, '0') }}
             </span>
             <span class="text-muted-foreground/50">·</span>
-            <span class="text-foreground">{{ currentSection.titulo }}</span>
+            <span class="font-medium text-foreground">{{ currentSection.titulo }}</span>
           </div>
         </div>
 
-        <div class="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10 md:py-14">
+        <div class="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-12 md:py-12 presenter:max-w-none presenter:px-12 lg:presenter:px-16">
           <RouterView v-slot="{ Component, route: r }">
             <Transition
               v-if="prefersReducedMotion"
@@ -104,6 +106,9 @@ const totalSections = sectionRoutes.length
 
       <!-- Global keyboard shortcuts modal -->
       <ShortcutsDialog />
+
+      <!-- Command palette (Ctrl/⌘+K) -->
+      <CommandPalette />
     </div>
   </TooltipProvider>
 </template>

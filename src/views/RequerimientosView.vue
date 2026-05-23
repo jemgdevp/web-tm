@@ -52,52 +52,58 @@ onMounted(() => {
 </script>
 
 <template>
-  <section>
+  <section class="snap-slide">
     <PageHeader
       :numero="3"
       titulo="Requerimientos"
       subtitulo="Negocio, usuario, sistema y F/NF — 31 requerimientos en 5 categorías."
     />
 
-    <!-- Counter resumen -->
+    <!-- Counter + KPI tiles por categoría -->
     <div
       data-anim
-      class="mb-8 flex flex-col items-start gap-3 rounded-xl border border-border bg-card p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6"
+      class="mb-8 flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-6 text-center sm:p-8"
     >
-      <div class="flex items-baseline gap-2">
-        <span class="font-mono text-4xl font-bold tabular-nums text-brand sm:text-5xl">
-          {{ counter }}
+      <span class="font-mono text-7xl font-bold tabular-nums text-brand sm:text-8xl">
+        {{ counter }}
+      </span>
+      <span class="font-heading text-lg uppercase tracking-[0.18em] text-muted-foreground">
+        requerimientos totales
+      </span>
+    </div>
+
+    <div
+      data-anim
+      class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-5 sm:gap-4"
+    >
+      <div
+        v-for="g in requirementGroups"
+        :key="`tile-${g.categoria}`"
+        class="flex flex-col items-center rounded-xl border border-border bg-card p-5 text-center transition-shadow hover:shadow-md"
+      >
+        <span class="flex size-12 items-center justify-center rounded-lg bg-brand/12 text-brand">
+          <component :is="iconMap[g.categoria] ?? ListChecks" class="size-6" />
         </span>
-        <span class="text-sm text-muted-foreground">requerimientos totales</span>
-      </div>
-      <span class="hidden h-10 w-px bg-border sm:block" aria-hidden="true" />
-      <div class="flex flex-wrap items-center gap-2 text-xs">
-        <span
-          v-for="g in requirementGroups"
-          :key="g.categoria"
-          class="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1"
-        >
-          <component :is="iconMap[g.categoria] ?? ListChecks" class="size-3.5 text-brand" />
-          <span class="font-medium text-foreground">{{ g.items.length }}</span>
-          <span class="text-muted-foreground">{{ categoriaCortaMap[g.categoria] ?? g.categoria }}</span>
+        <span class="mt-3 font-mono text-3xl font-bold tabular-nums text-foreground">
+          {{ g.items.length }}
+        </span>
+        <span class="mt-1 text-sm font-medium text-muted-foreground">
+          {{ categoriaCortaMap[g.categoria] ?? g.categoria }}
         </span>
       </div>
     </div>
 
     <!-- Tabs por categoría -->
     <Tabs data-anim default-value="negocio" class="w-full print:hidden">
-      <TabsList class="grid h-auto w-full grid-cols-2 gap-1 bg-muted/50 p-1 sm:grid-cols-5">
+      <TabsList class="grid h-auto w-full grid-cols-2 gap-1 bg-muted/50 p-1.5 sm:grid-cols-5">
         <TabsTrigger
           v-for="g in requirementGroups"
           :key="g.categoria"
           :value="g.categoria"
-          class="flex h-auto flex-col items-center gap-1 py-2.5"
+          class="flex h-auto flex-col items-center gap-1.5 py-3"
         >
-          <component :is="iconMap[g.categoria] ?? ListChecks" class="size-4 text-brand" />
-          <span class="text-xs font-semibold">{{ categoriaCortaMap[g.categoria] ?? g.titulo }}</span>
-          <span class="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-            {{ g.items.length }} ítems
-          </span>
+          <component :is="iconMap[g.categoria] ?? ListChecks" class="size-5 text-brand" />
+          <span class="text-sm font-semibold">{{ categoriaCortaMap[g.categoria] ?? g.titulo }}</span>
         </TabsTrigger>
       </TabsList>
 

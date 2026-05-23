@@ -18,6 +18,7 @@ declare global {
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
   const h: typeof import('vue').h
   const inject: typeof import('vue').inject
+  const isCommandOpen: typeof import('../composables/useAppShortcuts').isCommandOpen
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
   const isReadonly: typeof import('vue').isReadonly
@@ -69,6 +70,7 @@ declare global {
   const useModel: typeof import('vue').useModel
   const usePageTitle: typeof import('../composables/usePageTitle').usePageTitle
   const usePrefersReducedMotion: typeof import('../composables/usePrefersReducedMotion').usePrefersReducedMotion
+  const usePresenterMode: typeof import('../composables/usePresenterMode').usePresenterMode
   const useRoute: typeof import('vue-router').useRoute
   const useRouter: typeof import('vue-router').useRouter
   const useScrollReveal: typeof import('../composables/useScrollReveal').useScrollReveal
@@ -105,6 +107,7 @@ declare module 'vue' {
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
+    readonly isCommandOpen: UnwrapRef<typeof import('../composables/useAppShortcuts')['isCommandOpen']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -156,6 +159,7 @@ declare module 'vue' {
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly usePageTitle: UnwrapRef<typeof import('../composables/usePageTitle')['usePageTitle']>
     readonly usePrefersReducedMotion: UnwrapRef<typeof import('../composables/usePrefersReducedMotion')['usePrefersReducedMotion']>
+    readonly usePresenterMode: UnwrapRef<typeof import('../composables/usePresenterMode')['usePresenterMode']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useScrollReveal: UnwrapRef<typeof import('../composables/useScrollReveal')['useScrollReveal']>

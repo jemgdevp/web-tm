@@ -42,15 +42,15 @@ const Icon = iconMap[props.actor.icon] ?? Users
     <CardHeader class="relative">
       <div class="flex items-start gap-4">
         <span
-          class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-brand text-brand-foreground shadow-sm"
+          class="flex size-14 shrink-0 items-center justify-center rounded-xl bg-brand text-brand-foreground shadow-sm"
         >
-          <Icon class="size-5" />
+          <Icon class="size-7" />
         </span>
         <div class="flex flex-col">
-          <span class="font-heading text-lg font-semibold leading-tight">
+          <span class="font-heading text-xl font-semibold leading-tight">
             {{ actor.nombre }}
           </span>
-          <Badge variant="secondary" class="mt-2 w-fit font-mono text-[10px]">
+          <Badge variant="secondary" class="mt-2 w-fit font-mono text-xs">
             {{ actor.id }}
           </Badge>
         </div>
@@ -58,22 +58,22 @@ const Icon = iconMap[props.actor.icon] ?? Users
     </CardHeader>
 
     <CardContent class="relative space-y-4">
-      <p class="text-sm leading-relaxed text-muted-foreground">
+      <p class="text-base leading-relaxed text-muted-foreground">
         {{ actor.descripcion }}
       </p>
       <div>
-        <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+        <p class="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
           Responsabilidades
         </p>
-        <ul class="space-y-1.5">
+        <ul class="space-y-2">
           <li
             v-for="(r, i) in actor.responsabilidades"
             :key="i"
-            class="flex gap-2 text-sm text-foreground"
+            class="flex gap-2.5 text-base text-foreground"
           >
             <span
               aria-hidden="true"
-              class="mt-2 inline-block size-1 shrink-0 rounded-full bg-brand"
+              class="mt-2.5 inline-block size-1.5 shrink-0 rounded-full bg-brand"
             />
             <span>{{ r }}</span>
           </li>

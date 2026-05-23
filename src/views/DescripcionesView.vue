@@ -21,18 +21,15 @@ const secundarios = computed(() => useCases.filter((uc) => uc.tipo === 'secundar
       subtitulo="Ocho fichas formales (cuatro primarias y cuatro secundarias) ancladas al código real de Laravel y Vue."
     />
 
-    <p data-anim class="mb-10 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-      Especificación detallada siguiendo la plantilla del curso: nombre, actores, tipo,
-      precondiciones, descripción, flujo normal, flujos alternos, excepciones (etiquetadas EX-NN)
-      y postcondiciones. Las secciones más usadas se muestran expandidas; el resto se abre bajo
-      demanda.
+    <p data-anim class="mb-10 max-w-3xl text-base leading-relaxed text-muted-foreground">
+      Plantilla del curso: nombre, actores, tipo, precondiciones, descripción, flujos, excepciones (EX-NN) y postcondiciones. Solo la descripción está expandida; el resto se abre bajo demanda.
     </p>
 
     <!-- Principales -->
     <div data-anim class="mb-12">
       <div class="mb-5 flex items-center gap-3">
         <span class="h-px flex-1 bg-border" aria-hidden="true" />
-        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <span class="font-mono text-sm uppercase tracking-[0.18em] text-brand">
           Casos de uso principales · {{ principales.length }}
         </span>
         <span class="h-px flex-1 bg-border" aria-hidden="true" />
@@ -49,7 +46,7 @@ const secundarios = computed(() => useCases.filter((uc) => uc.tipo === 'secundar
     <div data-anim>
       <div class="mb-5 flex items-center gap-3">
         <span class="h-px flex-1 bg-border" aria-hidden="true" />
-        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+        <span class="font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground">
           Casos de uso secundarios · {{ secundarios.length }}
         </span>
         <span class="h-px flex-1 bg-border" aria-hidden="true" />

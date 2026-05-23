@@ -21,10 +21,7 @@ const actorNames = computed(() =>
   props.useCase.actores.map((id) => actorById(id)?.nombre ?? id),
 )
 
-const defaultOpen = computed(() => {
-  const base = ['descripcion', 'flujo-normal']
-  return base
-})
+const defaultOpen = computed(() => ['descripcion'])
 </script>
 
 <template>
@@ -35,7 +32,7 @@ const defaultOpen = computed(() => {
     <header class="border-b border-border bg-gradient-to-br from-brand/10 via-transparent to-transparent p-4 sm:p-6">
       <div class="flex items-center justify-between gap-3">
         <Badge
-          class="font-mono text-[11px]"
+          class="font-mono text-sm"
           :class="
             useCase.tipo === 'principal'
               ? 'bg-brand text-brand-foreground hover:bg-brand/90'
@@ -45,7 +42,7 @@ const defaultOpen = computed(() => {
         >
           {{ useCase.codigo }}
         </Badge>
-        <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+        <span class="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
           Caso de uso · {{ useCase.tipo }}
         </span>
       </div>
@@ -58,7 +55,7 @@ const defaultOpen = computed(() => {
           v-for="name in actorNames"
           :key="name"
           variant="outline"
-          class="text-[11px]"
+          class="text-sm"
         >
           {{ name }}
         </Badge>
@@ -72,22 +69,22 @@ const defaultOpen = computed(() => {
       class="w-full px-4 sm:px-6"
     >
       <AccordionItem value="descripcion">
-        <AccordionTrigger class="text-sm">
-          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <AccordionTrigger class="text-base">
+          <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-brand">
             <FileText class="size-3.5" />
             Descripción
           </span>
         </AccordionTrigger>
         <AccordionContent>
-          <p class="pb-2 text-sm leading-relaxed text-foreground">
+          <p class="pb-2 text-base leading-relaxed text-foreground">
             {{ useCase.descripcion }}
           </p>
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="precondiciones">
-        <AccordionTrigger class="text-sm">
-          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <AccordionTrigger class="text-base">
+          <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-brand">
             <Lock class="size-3.5" />
             Precondiciones
             <span class="font-sans normal-case tracking-normal text-muted-foreground">
@@ -100,7 +97,7 @@ const defaultOpen = computed(() => {
             <li
               v-for="(p, i) in useCase.precondiciones"
               :key="i"
-              class="flex gap-2 text-sm leading-relaxed text-foreground"
+              class="flex gap-2.5 text-base leading-relaxed text-foreground"
             >
               <span aria-hidden="true" class="mt-2 inline-block size-1 shrink-0 rounded-full bg-brand" />
               <span>{{ p }}</span>
@@ -110,8 +107,8 @@ const defaultOpen = computed(() => {
       </AccordionItem>
 
       <AccordionItem value="flujo-normal">
-        <AccordionTrigger class="text-sm">
-          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <AccordionTrigger class="text-base">
+          <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-brand">
             <ListOrdered class="size-3.5" />
             Flujo normal de eventos
             <span class="font-sans normal-case tracking-normal text-muted-foreground">
@@ -124,7 +121,7 @@ const defaultOpen = computed(() => {
             <li
               v-for="(p, i) in useCase.flujoNormal"
               :key="i"
-              class="grid grid-cols-[auto_1fr] gap-3 text-sm leading-relaxed"
+              class="grid grid-cols-[auto_1fr] gap-3 text-base leading-relaxed"
             >
               <span class="font-mono text-xs text-muted-foreground">
                 {{ String(i + 1).padStart(2, '0') }}
@@ -136,8 +133,8 @@ const defaultOpen = computed(() => {
       </AccordionItem>
 
       <AccordionItem v-if="useCase.flujosAlternos.length" value="flujos-alternos">
-        <AccordionTrigger class="text-sm">
-          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <AccordionTrigger class="text-base">
+          <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-brand">
             <GitFork class="size-3.5" />
             Flujos alternos
             <span class="font-sans normal-case tracking-normal text-muted-foreground">
@@ -152,14 +149,14 @@ const defaultOpen = computed(() => {
               :key="i"
               class="rounded-md border border-border bg-accent/30 p-4"
             >
-              <p class="text-sm font-medium text-foreground">{{ fa.titulo }}</p>
+              <p class="text-base font-medium text-foreground">{{ fa.titulo }}</p>
               <ol class="mt-2 space-y-1.5">
                 <li
                   v-for="(p, j) in fa.pasos"
                   :key="j"
-                  class="grid grid-cols-[auto_1fr] gap-3 text-sm leading-relaxed text-muted-foreground"
+                  class="grid grid-cols-[auto_1fr] gap-3 text-base leading-relaxed text-muted-foreground"
                 >
-                  <span class="font-mono text-[11px]">{{ String(j + 1).padStart(2, '0') }}</span>
+                  <span class="font-mono text-xs">{{ String(j + 1).padStart(2, '0') }}</span>
                   <span>{{ p }}</span>
                 </li>
               </ol>
@@ -169,8 +166,8 @@ const defaultOpen = computed(() => {
       </AccordionItem>
 
       <AccordionItem v-if="useCase.excepciones.length" value="excepciones">
-        <AccordionTrigger class="text-sm">
-          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <AccordionTrigger class="text-base">
+          <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-brand">
             <AlertOctagon class="size-3.5" />
             Excepciones
             <span class="font-sans normal-case tracking-normal text-muted-foreground">
@@ -185,8 +182,8 @@ const defaultOpen = computed(() => {
               :key="i"
               class="rounded-md border border-destructive/30 bg-destructive/[0.04] p-4"
             >
-              <p class="text-sm font-medium text-foreground">{{ e.titulo }}</p>
-              <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+              <p class="text-base font-medium text-foreground">{{ e.titulo }}</p>
+              <p class="mt-1 text-base leading-relaxed text-muted-foreground">
                 {{ e.descripcion }}
               </p>
             </div>
@@ -195,8 +192,8 @@ const defaultOpen = computed(() => {
       </AccordionItem>
 
       <AccordionItem value="postcondiciones">
-        <AccordionTrigger class="text-sm">
-          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brand">
+        <AccordionTrigger class="text-base">
+          <span class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-brand">
             <Unlock class="size-3.5" />
             Postcondiciones
             <span class="font-sans normal-case tracking-normal text-muted-foreground">
@@ -209,7 +206,7 @@ const defaultOpen = computed(() => {
             <li
               v-for="(p, i) in useCase.postcondiciones"
               :key="i"
-              class="flex gap-2 text-sm leading-relaxed text-foreground"
+              class="flex gap-2.5 text-base leading-relaxed text-foreground"
             >
               <span aria-hidden="true" class="mt-2 inline-block size-1 shrink-0 rounded-full bg-brand" />
               <span>{{ p }}</span>

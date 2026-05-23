@@ -19,12 +19,14 @@ defineProps<Props>()
         {{ eyebrow ?? `Sección ${String(numero).padStart(2, '0')}` }}
       </span>
     </div>
-    <h1 class="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+    <h1
+      class="mt-3 text-balance font-bold tracking-tight text-foreground text-[clamp(2rem,2.5vw+1.25rem,3.5rem)] presenter:text-[clamp(2.5rem,3.5vw+1.25rem,4.5rem)]"
+    >
       {{ titulo }}
     </h1>
     <p
       v-if="subtitulo"
-      class="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg"
+      class="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl presenter:max-w-4xl"
     >
       {{ subtitulo }}
     </p>
